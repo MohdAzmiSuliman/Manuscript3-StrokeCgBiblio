@@ -1,0 +1,86 @@
+---
+title: "Manuscript 3 - Stroke Caregiver Burden Bibliometric"
+subtitle: "Research on Stroke Caregiver Burden, A bibliometric Analysis"
+author: "Mohd Azmi B Suliman"
+date: last-modified
+date-format: "dddd, DD/MM/YYYY"
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-copy: hover
+    code-overflow: wrap
+    code-tools: true
+    df-print: paged
+    default-image-extension: svg
+    embed-resources: true
+    theme: sandstone
+    fontsize: 1em
+    page-layout: full
+    reference-location: margin
+    title-block-banner: true
+    title-block-style: default
+    license: "CC BY"
+toc: true
+number-sections: true
+execute: 
+  warning: false
+  cache: false
+monofont: 'Fira Code'
+---
+
+# Front Matter
+
+Title: Research on Stroke Caregiver Burden, A bibliometric Analysis
+
+Authors:
+
+## Abstract
+
+**Introduction**: Stroke is a serious and growin ghelath problem, and since most people with stroke live at home, caring responsibilities generally fall on family mmembers. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, instituiton and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
+
+
+**Methods**: Studies published during 1996-2021 were extracted from the Web of Science. Each abstract of publications was evaluated to obtain the basic information. 
+
+
+Results:
+
+Conclusion:
+
+Keywords
+
+# Introduction
+
+# Methodology
+
+
+
+# Results
+
+```{r}
+#| label: setup
+
+pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
+               gtsummary, kableExtra)
+
+bibds_wos <- convert2df(file = "22-11-30 WOS_t100cgburden.bib", dbsource = "wos",
+                        format = "bibtex")
+
+```
+
+```{r}
+#| label: summary_setup
+
+bibres <- biblioAnalysis(bibds_wos)
+
+summary(bibres, k = 10)
+```
+
+
+
+
+# Discussion
+
+# Conclusion
+
+
