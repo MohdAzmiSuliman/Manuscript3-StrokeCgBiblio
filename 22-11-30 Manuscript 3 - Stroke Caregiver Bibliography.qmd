@@ -31,7 +31,7 @@ monofont: 'Fira Code'
 
 # Front Matter
 
-Title: Research on Stroke Caregiver Burden, A bibliometric Analysis
+Title: Research on Stroke Caregiver, A bibliometric Analysis
 
 Authors:
 
@@ -39,9 +39,9 @@ Authors:
 
 **Introduction**: Stroke is a serious and growing health problem, and since most people with stroke live at home, caring responsibilities generally fall on family members. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, institution and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
 
-**Methods**: Studies published during *1996-2021* were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
+**Methods**: Studies published during 2003-2022 were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
 
-Results: There were 152 articles were identified, but only top 100 most cited articles were analysed. The annual number of relevant publications has steadily increased since approximately *2006*. The USA has the highest number of publication *( )*, followed by *UK* *( )*. The *University College London* was the most productive institution while the *Stroke* journal and *Bakas T from US* was the most productive journal and author, respectively. A co-occurrence analysis of the keywords reveals a mainstream research focus on burden, depression, quality of life and corresponding intervention for people with stroke caregivers. The keyword "xxx", "xxx", and "xxx" reflect the latest hotspots, appearing in approximately *2017-2018*.
+Results: There were 577 articles were identified, but only top 250 most cited articles were analysed. Annually, approximately 10-15 articles were published. The USA has the highest number of publication (14.0%), followed by China and Turkey (both 10.0% respectively). The University Florida was the most productive institution while the Topics in Stroke Rehabilitation journal was the most productive journal. There were two authors that share the most productive authors, which were Grabowska-Fudala B and Jaracz K, both from Poland. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.
 
 Conclusion: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from *1996-2021* and provides a comprehensive analysis.
 
@@ -74,7 +74,7 @@ The aims of this study were to examine the publication patterns of research on s
 
 The data were downloaded from public databases and as secondary data, did not require any interactions with human subjects. There were no ethical issues associated with the data, and approval from institutional review boards was not required.
 
-The data were obtained from Web of Science on 30th November, 2022, with publications published between 1996 and 3032 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver) AND TI=(burden)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The hears result form the Web of Science database were subsequently filtered to include the top 100 most cited. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
+The data were obtained from Web of Science on 1st December, 2022, with publications published in the past 20 years, between 2003 and 2022 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The search result form the Web of Science database were subsequently filtered to include the top 250 most cited, and limited to article type only. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
 
 Bibliometrics is defined as the application of statistics and mathematics for the analysis of written publications such as books and journal articles. Bibliometric techniques can be used to perform statistical and quantitative analysis of publications and offer a convenient way to visibly measure researchers efforts in the investigation of a specific field. Such analyses can characterize the development in certain field and have contributed substantially to informing policy making, clinical guidelines and research trends. Impact factors were taken from those published by the WOS in 2018. Cooperation among countries or institution was based on the first authors. Collaboration type was determined by the addresses of the authors, where the term 'single-country article' was assigned if the researchers' addresses were in the same country. The term 'internationally collaborative article' was used to designate those articles that were co-authored by researchers from multiple countries.
 
@@ -93,12 +93,13 @@ In total, 152 publications on the stroke caregiver burden published between 1996
 pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
                gtsummary, kableExtra, metagear)
 
-bibds_wos <- convert2df(file = "22-11-30 WOS_t100cgburden.bib", dbsource = "wos",
+bibds_wos <- convert2df(file = "22-12-01 WOS_t250strokecg20y.bib", dbsource = "wos",
                         format = "bibtex")
 bibres <- biblioAnalysis(bibds_wos)
 bibres_plot <- plot(bibres, k = 10)
 
 ```
+
 
 ```{r}
 #| label: fig-database_flow
@@ -106,11 +107,12 @@ bibres_plot <- plot(bibres, k = 10)
 #| 
 
 prismaplot <- plot_PRISMA(
-  c("START_PHASE: Studies identified through databse searching (n=152)",
-    "Abstract screened (n=152)",
-    "Top 100 most cited publication (n=100)",
-    "EXCLUDE_PHASE: Below Top 100 (n = 52)",
-    "Included in the analysis (n=100)"),
+  c("START_PHASE: Studies identified through databse searching (n=945)",
+    "Publication Type: Articles only (n=577)",
+    "EXCLUDE_PHASE: Other Type (n = 368)",
+    "Top 250 most cited publication (n=250)",
+    "EXCLUDE_PHASE: Below Top 250 (n = 327)",
+    "Included in the analysis (n=250)"),
   design = "classic", colWidth = 30, excludeDistance = 1
   )
 ```
@@ -118,7 +120,15 @@ prismaplot <- plot_PRISMA(
 ```{r}
 #| label: bibres_summary
 
-summary(bibres, k = 10)
+bibres_summary <- summary(bibres, k = 10)
+```
+
+
+```{r}
+tibble(Year = bibres$Years) %>% 
+  group_by(Year) %>% 
+  summarise(n = n())
+
 ```
 
 
@@ -130,12 +140,83 @@ bibres_plot$AnnualScientProd
 ```
 
 
+## Authors, articles and references
+
+The top 10 authors contributed 
+
+
 ```{r}
-#| label: fig-annualscientprod
+#| label: tbl-top10authors
+#| tbl-cap: "Most Productive Authors"
+
+bibres_aulist <- bibres$Authors
+
+tibble(Rank = seq_along(bibres_aulist),
+       Author = rownames(bibres_aulist),
+       `Number of Publications` = bibres_aulist) %>% 
+  filter(`Number of Publications` >= 2)
+
+```
+
+
+
+
+
+## Journals
+
+
+
+
+## Institution
+
+
+
+
+
+## Country
+
+
+```{r}
+#| label: fig-mostprodcountries
 #| fig-cap: "Number of Publication by top 10 countries" 
 
 bibres_plot$MostProdCountries
 ```
+
+
+
+
+
+```{r}
+#| label: tbl-top10institution
+#| tbl-cap: "Most Productive Institution"
+
+bibres_instlist <- bibres$Affiliations
+
+tibble(Rank = seq_along(bibres_instlist),
+  `Institution name` = rownames(bibres_instlist),
+       `Number of Publications` = bibres_instlist) %>% 
+  filter(`Number of Publications` >= 5) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+
+```{r}
+bib_kwco_NetMatrix <- biblioNetwork(bibds_wos, analysis = "co-occurrences", 
+                                     network = "keywords", sep = ";")
+
+bib_kwco_Plot <- networkPlot(bib_kwco_NetMatrix, normalize = "association", 
+                             n = 25, Title = "Keyword Co-occurences", 
+                             cluster = "optimal", type = "fruchterman", 
+                             size.cex = T, size = 20,  remove.multiple = F, 
+                             edgesize = 7, labelsize = 3, label.cex = T, 
+                             label.n = 20, edges.min = 5)
+
+```
+
+
+
+
 
 
 
