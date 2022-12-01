@@ -37,43 +37,104 @@ Authors:
 
 ## Abstract
 
-**Introduction**: Stroke is a serious and growin ghelath problem, and since most people with stroke live at home, caring responsibilities generally fall on family mmembers. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, instituiton and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
+**Introduction**: Stroke is a serious and growing health problem, and since most people with stroke live at home, caring responsibilities generally fall on family members. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, institution and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
 
+**Methods**: Studies published during *1996-2021* were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
 
-**Methods**: Studies published during 1996-2021 were extracted from the Web of Science. Each abstract of publications was evaluated to obtain the basic information. 
+Results: There were 152 articles were identified, but only top 100 most cited articles were analysed. The annual number of relevant publications has steadily increased since approximately *2006*. The USA has the highest number of publication *( )*, followed by *UK* *( )*. The *University College London* was the most productive institution while the *Stroke* journal and *Bakas T from US* was the most productive journal and author, respectively. A co-occurrence analysis of the keywords reveals a mainstream research focus on burden, depression, quality of life and corresponding intervention for people with stroke caregivers. The keyword "xxx", "xxx", and "xxx" reflect the latest hotspots, appearing in approximately *2017-2018*.
 
+Conclusion: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from *1996-2021* and provides a comprehensive analysis.
 
-Results:
-
-Conclusion:
-
-Keywords
+Keywords: Bibliometric analysis; stroke caregivers burden; research trends
 
 # Introduction
 
+The majority of stroke survivors living at home were cared for by their spouses and children. Due to the ageing of the world population, the numbers of stroke survivors is expected to increase from by *xxx* by *2030*, however support services for caregivers are not expected to increase at the same rate.
+
+::: callout-note
+1 para (3-4 sentences) on stroke & stroke epidemiology
+:::
+
+The health of caregivers can be overlooked and they have been referred to as 'silent patients' or 'secondary patients'. The negative outcomes associated with caregiving include depression and anxiety, and caregivers exhibit high rates of mood disorders. The heavy burden and psychological distress caused by caring for relative with dementia may also contribute to severe physical and psychiatric problems and higher mortality risk. Recognizing this need, interventions have been developed to address the negative effect of caregiving, including education, respite, psychotherapeutic, family support, and multicomponent approaches. In recent decades, the research on this topic has covered a wide spectrum. However, a detailed analysis if the existing research publication landscape has not been undertaken to elucidate the body of published evidence. Such an analysis would be helpful for delineating the global trends in the research fields related to the health of and interventions for stroke caregivers.
+
+::: callout-note
+1-2 para (6-8 sentences) on stroke caregiver
+
+-   epidemiology
+-   need for intervention
+:::
+
+The aims of this study were to examine the publication patterns of research on stroke caregiver burden at a global level. we attempted to provide comprehensive insights into the current state of global research, including annual output characteristic, international collaborations, and keywords trends. The results should provide a better understanding of the global trends in the research on the stroke caregiver burden and indicate directions for further research.
+
+::: callout-note
+1 para for objectives and study justification
+:::
+
 # Methodology
 
+The data were downloaded from public databases and as secondary data, did not require any interactions with human subjects. There were no ethical issues associated with the data, and approval from institutional review boards was not required.
 
+The data were obtained from Web of Science on 30th November, 2022, with publications published between 1996 and 3032 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver) AND TI=(burden)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The hears result form the Web of Science database were subsequently filtered to include the top 100 most cited. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
+
+Bibliometrics is defined as the application of statistics and mathematics for the analysis of written publications such as books and journal articles. Bibliometric techniques can be used to perform statistical and quantitative analysis of publications and offer a convenient way to visibly measure researchers efforts in the investigation of a specific field. Such analyses can characterize the development in certain field and have contributed substantially to informing policy making, clinical guidelines and research trends. Impact factors were taken from those published by the WOS in 2018. Cooperation among countries or institution was based on the first authors. Collaboration type was determined by the addresses of the authors, where the term 'single-country article' was assigned if the researchers' addresses were in the same country. The term 'internationally collaborative article' was used to designate those articles that were co-authored by researchers from multiple countries.
+
+The data were analysed both quantitatively and qualitatively. We describe the research status of this field based on statistics regarding the number of articles and their distribution across countries and in time and space, subjects, journal, and high-yield institutions and authors. Moreover, the corpus was analysed to generate different scientific landscapes and networks. We analysed the cooperation situation in this field among countries and institutions via cooperation analysis; the intrinsic links among authors via bibliographic coupling; and the reference network and frequently cited literature via co-citation analysis. in the hotspot analysis, we captured high-frequency keywords for the clustering and co-occurrence analyses. The bibliometric analysis in this study was performed and visualized using `bibliometric` package in R and RStudio.
 
 # Results
 
+## General Information
+
+In total, 152 publications on the stroke caregiver burden published between 1996 and 2021 were identified through our search strategy using the WOS. In total, 100 top cited publications were analysed. The papers were published by 432 authors in 73 sources and used 182 keywords (after de-duplication). The total number of citations was 2,499. The number of articles fluctuated, but generally growing steadily since 2010.
+
 ```{r}
 #| label: setup
+#| include: false
 
 pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
-               gtsummary, kableExtra)
+               gtsummary, kableExtra, metagear)
 
 bibds_wos <- convert2df(file = "22-11-30 WOS_t100cgburden.bib", dbsource = "wos",
                         format = "bibtex")
+bibres <- biblioAnalysis(bibds_wos)
+bibres_plot <- plot(bibres, k = 10)
 
 ```
 
 ```{r}
-#| label: summary_setup
+#| label: fig-database_flow
+#| fig-cap: "Flow diagram for the inclusion of publication on the stroke caregiver burden"
+#| 
 
-bibres <- biblioAnalysis(bibds_wos)
+prismaplot <- plot_PRISMA(
+  c("START_PHASE: Studies identified through databse searching (n=152)",
+    "Abstract screened (n=152)",
+    "Top 100 most cited publication (n=100)",
+    "EXCLUDE_PHASE: Below Top 100 (n = 52)",
+    "Included in the analysis (n=100)"),
+  design = "classic", colWidth = 30, excludeDistance = 1
+  )
+```
+
+```{r}
+#| label: bibres_summary
 
 summary(bibres, k = 10)
+```
+
+
+```{r}
+#| label: fig-annualscientprod
+#| fig-cap: "Number of Publications by Year"
+
+bibres_plot$AnnualScientProd
+```
+
+
+```{r}
+#| label: fig-annualscientprod
+#| fig-cap: "Number of Publication by top 10 countries" 
+
+bibres_plot$MostProdCountries
 ```
 
 
@@ -82,5 +143,3 @@ summary(bibres, k = 10)
 # Discussion
 
 # Conclusion
-
-
