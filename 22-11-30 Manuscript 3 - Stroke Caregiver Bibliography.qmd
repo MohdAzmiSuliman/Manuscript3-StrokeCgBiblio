@@ -25,7 +25,7 @@ toc: true
 number-sections: true
 execute: 
   warning: false
-  cache: false
+  cache: true
 monofont: 'Fira Code'
 ---
 
@@ -41,7 +41,7 @@ Authors:
 
 **Methods**: Studies published during 2003-2022 were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
 
-Results: There were 577 articles were identified, but only top 250 most cited articles were analysed. Annually, approximately 10-15 articles were published. The USA has the highest number of publication (14.0%), followed by China and Turkey (both 10.0% respectively). The University Florida was the most productive institution while the Topics in Stroke Rehabilitation journal was the most productive journal. There were two authors that share the most productive authors, which were Grabowska-Fudala B and Jaracz K, both from Poland. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.
+Results: There were 152 publications were identified, with 104 of them were original articles. *Annually, approximately 10-15 articles were published. The USA has the highest number of publication (14.0%), followed by China and Turkey (both 10.0% respectively). The University Florida was the most productive institution while the Topics in Stroke Rehabilitation journal was the most productive journal. There were two authors that share the most productive authors, which were Grabowska-Fudala B and Jaracz K, both from Poland. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.*
 
 Conclusion: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from *1996-2021* and provides a comprehensive analysis.
 
@@ -82,10 +82,6 @@ The data were analysed both quantitatively and qualitatively. We describe the re
 
 # Results
 
-## General Information
-
-In total, 152 publications on the stroke caregiver burden published between 1996 and 2021 were identified through our search strategy using the WOS. In total, 100 top cited publications were analysed. The papers were published by 432 authors in 73 sources and used 182 keywords (after de-duplication). The total number of citations was 2,499. The number of articles fluctuated, but generally growing steadily since 2010.
-
 ```{r}
 #| label: setup
 #| include: false
@@ -93,13 +89,44 @@ In total, 152 publications on the stroke caregiver burden published between 1996
 pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
                gtsummary, kableExtra, metagear)
 
-bibds_wos <- convert2df(file = "22-12-01 WOS_t250strokecg20y.bib", dbsource = "wos",
-                        format = "bibtex")
+bibds_wos <- convert2df(file = "22-11-30 WOS_TIstcgburden.ciw", dbsource = "wos",
+                        format = "endnote")
 bibres <- biblioAnalysis(bibds_wos)
-bibres_plot <- plot(bibres, k = 10)
+# bibres_plot <- plot(bibres, k = 10)
+# error for plot
+
+bibres_countrylist <- bibres$Countries
+
+bibres_countrytable <- tibble(Rank = seq_along(bibres_countrylist),
+                              Country = rownames(bibres_countrylist),
+                              Np = as.integer(bibres_countrylist)) %>% 
+  mutate(Country = fct_reorder(Country, Rank))
+
+bibres_aulist <- bibres$Authors
+
+bibres_autable <- tibble(Rank = seq_along(bibres_aulist),
+                         Author = rownames(bibres_aulist),
+                         Np = as.integer(bibres_aulist))
+
+bibres_autablepercent <- bibres_autable %>% 
+  count(Np) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1))
 
 ```
 
+## General Information
+
+
+```{r}
+#| label: bibres_summary
+#| include: false
+
+bibres_summary <- summary(bibres, k = 10)
+```
+
+
+In total, 152 publications on the stroke caregiver burden published between `r min(bibres$Years, na.rm = T)` and `r max(bibres$Years, na.rm = T)` were identified through our search strategy using the WOS. Only `r bibres$Articles` original articles were identified and analysed. The papers were published by `r nrow(bibres$Authors)` authors in `r nrow(bibres$Sources)` sources and used `r nrow(bibres$DE)` keywords (after de-duplication). The total number of citations was `r sum(bibres$TotalCitation)`. The number of articles fluctuated, but generally growing steadily since 2006.
 
 ```{r}
 #| label: fig-database_flow
@@ -107,59 +134,98 @@ bibres_plot <- plot(bibres, k = 10)
 #| 
 
 prismaplot <- plot_PRISMA(
-  c("START_PHASE: Studies identified through databse searching (n=945)",
-    "Publication Type: Articles only (n=577)",
-    "EXCLUDE_PHASE: Other Type (n = 368)",
-    "Top 250 most cited publication (n=250)",
-    "EXCLUDE_PHASE: Below Top 250 (n = 327)",
-    "Included in the analysis (n=250)"),
+  c("START_PHASE: Studies identified through databse searching (n=152)",
+    "Publication Type: Articles only (n=104)",
+    "EXCLUDE_PHASE: Other Type (n = 48)",
+    "Included in the analysis (n=104)"),
   design = "classic", colWidth = 30, excludeDistance = 1
   )
 ```
 
 ```{r}
-#| label: bibres_summary
-
-bibres_summary <- summary(bibres, k = 10)
-```
-
-
-```{r}
-tibble(Year = bibres$Years) %>% 
-  group_by(Year) %>% 
-  summarise(n = n())
-
-```
-
-
-```{r}
 #| label: fig-annualscientprod
 #| fig-cap: "Number of Publications by Year"
 
-bibres_plot$AnnualScientProd
+# bibres_plot$AnnualScientProd
+# error plot - refer setup chunk
+
+tibble(Article = rownames(bibds_wos),
+       Year = bibds_wos$PY) %>% 
+  group_by(Year) %>% 
+  summarise(n = n()) %>% 
+  add_row(Year = 1996:2022, n = 0) %>% 
+  distinct(Year, .keep_all = T) %>% 
+  ggplot(aes(x = Year, y = n)) +
+  geom_area(alpha = .3) +
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(breaks = seq(0,16,2)) +
+  scale_x_continuous(breaks = seq(1996,2022,2)) +
+  coord_cartesian(ylim = c(0,16)) +
+  labs(x = "Year", y = "Number of Publication") +
+  theme_bw()
 ```
 
 
-## Authors, articles and references
+## Country
 
-The top 10 authors contributed 
+The 104 articles were published in `r nrow(bibres_countrylist)` countries, and the top 10 countries were shown in @fig-mostprodcountries. The collaboration network between the countries was shown in @fig-countries_collaboration.
 
 
 ```{r}
-#| label: tbl-top10authors
-#| tbl-cap: "Most Productive Authors"
+#| label: fig-mostprodcountries
+#| fig-cap: "Number of Publication by top 10 countries" 
 
-bibres_aulist <- bibres$Authors
+# bibres_plot$MostProdCountries
+# error plot - refer setup chunk
 
-tibble(Rank = seq_along(bibres_aulist),
-       Author = rownames(bibres_aulist),
-       `Number of Publications` = bibres_aulist) %>% 
-  filter(`Number of Publications` >= 2)
+bibres_countrytable %>%
+  filter(Rank <= 10) %>%
+  ggplot(aes(x = Np, y = Country)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(0,15,2)) +
+  labs(x = "Number of Publications") +
+  theme_bw()
+  
+```
 
+```{r}
+#| label: fig-countries_collaboration
+#| fig-cap: "Countries Collaboration Map" 
+
+bib_concolab <- metaTagExtraction(bibds_wos, Field = "AU_CO", sep = ";")
+
+bib_concolab_NetMatrix <- biblioNetwork(bib_concolab, analysis = "collaboration",
+                                       network = "countries", sep = ";")
+
+bib_concolab_Plot <- networkPlot(bib_concolab_NetMatrix, 
+                                 n = dim(bib_concolab_NetMatrix)[1], 
+                                 Title = "Country collaboration",type = "circle", 
+                                 size=10, size.cex=T, edgesize = 1.5, labelsize=1,
+                                 cluster = "none")
 ```
 
 
+## Institution
 
+The collaboration network between the institution was shown in @fig-bib_EduColabPlot.
+
+```{r}
+#| label: fig-bib_EduColabPlot
+#| fig-cap: "Institution Collaboration Map"
+#| column: screen-inset-shaded
+#| fig-width: 10
+#| fig-height: 7
+
+bib_educolab_NetMatrix <- biblioNetwork(bibds_wos, analysis = "collaboration",
+                                       network = "universities", sep = ";")
+
+bib_educolab_Plot <- networkPlot(bib_educolab_NetMatrix, n = 25, 
+                                 cluster = "optimal", type = "auto",
+                                 size.cex = F, size = 4, remove.multiple = F,
+                                 labelsize=1, alpha = .7, edgesize = 5,
+                                 Title = "Institutions collaboration")
+```
 
 
 ## Journals
@@ -167,21 +233,96 @@ tibble(Rank = seq_along(bibres_aulist),
 
 
 
-## Institution
 
 
+## Authors, Articles and References
 
-
-
-## Country
+Out of total `r sum(bibres_autable$Np)` authors, majority of them appear once (`r max(bibres_autablepercent$percent)`%), while `r bibres_autablepercent$percent[2]`% of the authors had produced 2 publications, `r bibres_autablepercent$percent[3]`% and `r bibres_autablepercent$percent[4]`% produced 3 and 4 publication respectively. The top 5 productive authors as shown in @tbl-top5authors.
 
 
 ```{r}
-#| label: fig-mostprodcountries
-#| fig-cap: "Number of Publication by top 10 countries" 
+#| label: tbl-top5authors
+#| tbl-cap: "Most Productive Authors"
 
-bibres_plot$MostProdCountries
+bibres_autable %>% 
+  rename("Number of Publications" = "Np") %>% 
+  mutate(Author = str_to_title(Author)) %>% 
+  head(n = 5) %>% 
+  kable() %>% kable_classic(full_width = F)
+
 ```
+
+All articles were subjected to a author coupling analysis to produce the network map, as shown in @fig-bib_AuCoupling_Plot. The connection between two nodes indicates that the articles have a common references, and the wieghting reflect the coupling strenght of the two nodes 
+
+```{r}
+#| label: fig-bib_AuCoupling_Plot
+#| fig-cap: "Author Coupling Analysis"
+#| column: screen-inset-shaded
+#| fig-width: 10
+#| fig-height: 7
+
+bib_AuCoupling_NetMatrix <- biblioNetwork(bibds_wos, analysis = "coupling",
+                                          network = "authors", sep = ";")
+
+bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 20, 
+                                   cluster = "optimal", type = "auto", 
+                                   size.cex = T, size = 20, remove.multiple = F,
+                                   Title = "Bibliographic coupling of the authors",
+                                   alpha = .7)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+#| label: working
+#| include: false
+
+# bibres_aulist <- bibres$Authors
+# 
+# nrow(bibres$Authors)
+# 
+# tibble(Rank = seq_along(bibres_aulist),
+#        Author = rownames(bibres_aulist),
+#        `Number of Publications` = bibres_aulist)
+# 
+# bibres_journallist <- bibres$Sources
+# 
+# nrow(bibres$Sources)
+# 
+# tibble(Rank = seq_along(bibres_journallist),
+#        `Sources (Journal)` = rownames(bibres_journallist),
+#        `Number of Publications` = bibres_journallist)
+# 
+# bibres$TotalCitation %>% sum()
+# 
+# bibres_journallist <- bibres$Sources
+# 
+# nrow(bibres$Sources)
+# 
+# tibble(Rank = seq_along(bibres_journallist),
+#        `Sources (Journal)` = rownames(bibres_journallist),
+#        `Number of Publications` = bibres_journallist)
+
+
+```
+
+
 
 
 
