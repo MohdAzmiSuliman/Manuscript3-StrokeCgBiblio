@@ -39,13 +39,13 @@ Authors:
 
 **Introduction**: Stroke is a serious and growing health problem, and since most people with stroke live at home, caring responsibilities generally fall on family members. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, institution and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
 
-**Methods**: Studies published during 2003-2022 were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
+**Methods**: Studies published during 1996-2022 were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
 
-Results: There were 152 publications were identified, with 104 of them were original articles. *Annually, approximately 10-15 articles were published. The USA has the highest number of publication (14.0%), followed by China and Turkey (both 10.0% respectively). The University Florida was the most productive institution while the Topics in Stroke Rehabilitation journal was the most productive journal. There were two authors that share the most productive authors, which were Grabowska-Fudala B and Jaracz K, both from Poland. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.*
+**Results**: There were 152 publications were identified, with 104 of them were original articles. The number of publication steadily increase since 2006. The USA has the highest number of publication (13.5%) followed by China (11.5%) and Turkey (10.6%). The Poznan University of Medical Sciences was the most productive institution, the Topics in Stroke Rehabilitation journal was the most productive journal. There were two authors that share the most productive authors, which were Grabowska-Fudala B and Jaracz K, both from Poland. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", "anxiety" and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.
 
-Conclusion: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from *1996-2021* and provides a comprehensive analysis.
+**Conclusion**: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from 1996-2022 and provides a comprehensive analysis.
 
-Keywords: Bibliometric analysis; stroke caregivers burden; research trends
+**Keywords**: Bibliometric analysis; stroke caregivers burden; research trends
 
 # Introduction
 
@@ -74,11 +74,17 @@ The aims of this study were to examine the publication patterns of research on s
 
 The data were downloaded from public databases and as secondary data, did not require any interactions with human subjects. There were no ethical issues associated with the data, and approval from institutional review boards was not required.
 
-The data were obtained from Web of Science on 1st December, 2022, with publications published in the past 20 years, between 2003 and 2022 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The search result form the Web of Science database were subsequently filtered to include the top 250 most cited, and limited to article type only. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
+The data were obtained from Web of Science on 1st December, 2022, with publications published in the between 1996 and 2022 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver) AND TI=(burden)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The search result form the Web of Science database were subsequently filtered to include the article type only. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
 
 Bibliometrics is defined as the application of statistics and mathematics for the analysis of written publications such as books and journal articles. Bibliometric techniques can be used to perform statistical and quantitative analysis of publications and offer a convenient way to visibly measure researchers efforts in the investigation of a specific field. Such analyses can characterize the development in certain field and have contributed substantially to informing policy making, clinical guidelines and research trends. Impact factors were taken from those published by the WOS in 2018. Cooperation among countries or institution was based on the first authors. Collaboration type was determined by the addresses of the authors, where the term 'single-country article' was assigned if the researchers' addresses were in the same country. The term 'internationally collaborative article' was used to designate those articles that were co-authored by researchers from multiple countries.
 
 The data were analysed both quantitatively and qualitatively. We describe the research status of this field based on statistics regarding the number of articles and their distribution across countries and in time and space, subjects, journal, and high-yield institutions and authors. Moreover, the corpus was analysed to generate different scientific landscapes and networks. We analysed the cooperation situation in this field among countries and institutions via cooperation analysis; the intrinsic links among authors via bibliographic coupling; and the reference network and frequently cited literature via co-citation analysis. in the hotspot analysis, we captured high-frequency keywords for the clustering and co-occurrence analyses. The bibliometric analysis in this study was performed and visualized using `bibliometric` package in R and RStudio.
+
+::: callout-note
+update these 2 para
+
+-   methodology - what was done in analysis (i.e. the result)
+:::
 
 # Results
 
@@ -134,6 +140,19 @@ bibres_sourcetablepercent <- bibres_sourcetable %>%
 
 bib_bradford <- bradford(bibds_wos)
 
+bibds_noaufreq <- bibds_wos %>% 
+  select(TI, AU, DT) %>% 
+  tibble() %>% 
+  mutate(no_auth = stri_count_regex(AU, c(";")) + 1,
+         DT = fct_recode(DT, 
+                         "ARTICLE" = "ARTICLE; PROCEEDINGS PAPER",
+                         "ARTICLE" = "ARTICLE; EARLY ACCESS")) %>% 
+  rename("paper" = "TI", "author" = "AU", "type" = "DT") %>% 
+  group_by(no_auth, type) %>% 
+  summarise(freq = n(), .groups = "drop") %>% 
+  mutate(percent = freq / sum(freq) * 100,
+         percent = round(percent,1))
+
 bibres_aulist <- bibres$Authors
 
 bibres_autable <- tibble(Rank = seq_along(bibres_aulist),
@@ -158,7 +177,9 @@ bibres_autablepercent <- bibres_autable %>%
 bibres_summary$AnnualProduction
 ```
 
-In total, 152 publications on the stroke caregiver burden published between `r min(bibres$Years, na.rm = T)` and `r max(bibres$Years, na.rm = T)` were identified through our search strategy using the WOS. Only `r bibres$Articles` original articles were identified and analysed. The papers were published by `r nrow(bibres$Authors)` authors in `r nrow(bibres$Sources)` journals and used `r nrow(bibres$DE)` keywords (after de-duplication). The total number of citations was `r format(sum(bibres$TotalCitation), big.mark = ",")`. The number of articles fluctuated, but generally growing steadily since 2006, with annual growth rate of 7.59%^[manual]
+In total, 152 publications on the stroke caregiver burden published between `r min(bibres$Years, na.rm = T)` and `r max(bibres$Years, na.rm = T)` were identified through our search strategy using the WOS. Only `r bibres$Articles` original articles were identified and analysed. The original articles were published by `r nrow(bibres$Authors)` authors in `r nrow(bibres$Sources)` journals and used `r nrow(bibres$DE)` keywords (after de-duplication). The total number of citations were `r format(sum(bibres$TotalCitation), big.mark = ",")`. The number of articles produced yearly was fluctuated, but generally growing steadily since 2006, with annual growth rate of 7.59%[^1]
+
+[^1]: manual
 
 ```{r}
 #| label: fig-database_flow
@@ -197,10 +218,9 @@ tibble(Article = rownames(bibds_wos),
   theme_bw()
 ```
 
-
 ## Country
 
-When analysing the corresponding author's country, the `r bibres$Articles` articles were published in `r nrow(bibres_countrylist)` countries. The top 10 productive countries, and top 10 most total citation per country were shown in @tbl-articles_country. 
+When analysing the corresponding author's country, the `r bibres$Articles` articles were published in `r nrow(bibres_countrylist)` countries. The top 10 productive countries, and top 10 most total citation per country were shown in @tbl-articles_country.
 
 ```{r}
 #| label: tbl-articles_country
@@ -228,7 +248,6 @@ bibressum_countrytable %>%
 
 ```
 
-
 ```{r}
 #| label: fig-mostprodcountries
 #| fig-cap: "Number of Publication by top 10 countries"
@@ -247,13 +266,14 @@ bibres_countrytable %>%
   
 ```
 
-
 The collaboration network between the corresponding author's countries was shown in @fig-countries_collaboration.
-
 
 ```{r}
 #| label: fig-countries_collaboration
 #| fig-cap: "Countries Collaboration Map" 
+#| column: page-inset-left
+#| fig-width: 10
+#| fig-height: 7
 
 bib_concolab <- metaTagExtraction(bibds_wos, Field = "AU_CO", sep = ";")
 
@@ -267,10 +287,9 @@ bib_concolab_Plot <- networkPlot(bib_concolab_NetMatrix,
                                  cluster = "none")
 ```
 
-
 ## Institution
 
-The publications in this field were from `r nrow(bibres_instlist)` institutions. The top 12 productive institutions were shopn in @tbl-top10institution. The collaboration network between the institution was shown in @fig-bib_EduColabPlot.
+The publications in this field were from `r nrow(bibres_instlist)` institutions. The top 12 productive institutions were shown in @tbl-top10institution. The collaboration network between the institution was shown in @fig-bib_EduColabPlot.
 
 ```{r}
 #| label: tbl-top10institution
@@ -289,11 +308,10 @@ bibres_insttable %>%
   kable() %>% kable_classic(full_width = F)
 ```
 
-
 ```{r}
 #| label: fig-bib_EduColabPlot
 #| fig-cap: "Institution Collaboration Map"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -307,11 +325,9 @@ bib_educolab_Plot <- networkPlot(bib_educolab_NetMatrix, n = 25,
                                  Title = "Institutions collaboration")
 ```
 
-
 ## Journals
 
 A total of `r nrow(bibres_sourcelist)` journals have published articles in this field. Most of the journals only produced one article (`r bibres_sourcetablepercent$percent[1]`%). Based on Bradford's Law, the list of journals in Zone 1 as listed in @tbl-zone1_bradford.
-
 
 ```{r}
 #| label: tbl-Zone_Bradford
@@ -328,7 +344,6 @@ bib_bradford$table %>%
   kable_classic(full_width = F)
 ```
 
-
 ```{r}
 #| label: tbl-zone1_bradford
 #| tbl-cap: "Journals in Zone 1 of Bradford's Law"
@@ -336,17 +351,25 @@ bib_bradford$table %>%
 bib_bradford$table %>% 
   filter(Zone == "Zone 1") %>% 
   tibble() %>% 
+  mutate(SO = str_to_title(SO)) %>% 
   rename("Journal Name" = "SO") %>% 
   kable() %>% 
   kable_classic(full_width = F)
 
 ```
 
-
-
 ```{r}
-#| label: tbl-top15journal
-#| tbl-cap: "Most Productive Journal"
+#| eval: false
+
+## label: tbl-top15journal
+## tbl-cap: "Most Productive Journal"
+
+## alternative to above. note: based on bradford law, 12 journal in zone 1, 
+## in which 6 journal had 2 publications. however, there were actually 8
+## journal with 2 publications. The journals were sorted by number of 
+## publication (frequency), and by alphabetical order, hence there are 2 
+## additional journals that were not included (i.e. 'Medicine' and 
+## 'Patient Education and Counseling' journals)
 
 bibres_sourcetable %>% 
   rename("Number of Publications" = "Np",
@@ -367,7 +390,7 @@ Journal co-citation analysis as shown in @fig-bib_CRSO_Plot
 ```{r}
 #| label: fig-bib_CRSO_Plot
 #| fig-cap: "Journal Co-citation Analysis"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -380,11 +403,11 @@ bib_CRSO_Plot <- networkPlot(bib_CRSO_NetMatrix, n = 25,
                              labelsize = 1, edgesize = 10, edges.min = 5)
 ```
 
-
 ## Authors, Articles and References
 
-Out of total `r sum(bibres_autable$Np)` authors, majority of them appear once (`r max(bibres_autablepercent$percent)`%), while `r bibres_autablepercent$percent[2]`% of the authors had produced `r bibres_autablepercent$Np[2]` publications, and only `r bibres_autablepercent$n[3]` authors had `r bibres_autablepercent$Np[3]` publications. The authors who published four publications were `r  stringr::str_to_title(bibres_autable$Author[1])` and `r stringr::str_to_title(bibres_autable$Author[2])`.
+Out of total `r sum(bibres_autable$Np)` authors, majority of them appear once (`r max(bibres_autablepercent$percent)`%), while `r round(bibres_autablepercent$percent[2],1)`% of the authors had produced `r bibres_autablepercent$Np[2]` publications, and only `r bibres_autablepercent$n[3]` authors had `r bibres_autablepercent$Np[3]` publications. The authors who published four publications were `r  stringr::str_to_title(bibres_autable$Author[1])` and `r stringr::str_to_title(bibres_autable$Author[2])`, both from Poland[^2].
 
+[^2]: manual
 
 ```{r}
 #| eval: false
@@ -401,7 +424,20 @@ bibres_autable %>%
 
 ```
 
+The articles have `r english::words(min(bibds_noaufreq$no_auth))` to `r max(bibds_noaufreq$no_auth)` authors, with majority of them had `r english::words(bibds_noaufreq$no_auth[2])` authors (`r format(bibds_noaufreq$percent[2], nsmall = 1)`%). The number of authors for each articles were summarised in @fig-bibds_noaufreq
 
+```{r}
+#| label: fig-bibds_noaufreq
+#| fig-cap: "Number of authors per articles"
+
+bibds_noaufreq %>% 
+  ggplot(aes(no_auth, freq)) + 
+  geom_bar(stat = "identity") + 
+  labs(x = "Number of Authors", y = "Frequency (Number of Articles)") + 
+  scale_x_continuous(breaks = seq(0,15,2)) +
+  scale_y_continuous(breaks = seq(0,30,4)) +
+  theme_bw()
+```
 
 The top 10 most cited articles as shown in @tbl-top10citedarticles
 
@@ -419,34 +455,12 @@ tibble(Rank = 1:104,
   kable() %>% kable_classic()
 ```
 
-No of authors per articles
-
-```{r}
-bibds_wos %>% 
-  select(TI, AU, DT) %>% 
-  tibble() %>% 
-  mutate(no_auth = stri_count_regex(AU, c(";")) + 1,
-         DT = fct_recode(DT, "ARTICLE" = "ARTICLE; PROCEEDINGS PAPER")) %>% 
-  rename("paper" = "TI", "author" = "AU", "type" = "DT") %>% 
-  group_by(no_auth, type) %>% 
-  summarise(freq = n(), .groups = "drop") %>% 
-  ggplot(aes(no_auth, freq)) + 
-  geom_bar(stat = "identity") + 
-  labs(x = "Number of Authors", y = "Frequency (Number of Articles)") + 
-  scale_x_continuous(breaks = seq(0,30,4)) +
-  theme_bw() + 
-  theme(legend.position = "none")
-```
-
-
-
-
-All articles were subjected to a author coupling analysis to produce the network map, as shown in @fig-bib_AuCoupling_Plot. The connection between two nodes indicates that the articles have a common references, and the wieghting reflect the coupling strenght of the two nodes 
+All articles were subjected to a author coupling analysis to produce the network map, as shown in @fig-bib_AuCoupling_Plot. The connection between two nodes indicates that the articles have a common references, and the weighting reflect the coupling strength of the two nodes
 
 ```{r}
 #| label: fig-bib_AuCoupling_Plot
 #| fig-cap: "Author Coupling Analysis"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -460,9 +474,7 @@ bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 20,
                                    alpha = .7)
 ```
 
-
-
-## Hotspot
+## Keyword
 
 ::: callout-note
 summarise on keyword co-occurence matrix plot
@@ -493,16 +505,12 @@ bib_themeevolution_de <- fieldByYear(bibds_wos, field = "DE",
 bib_themeevolution_de$graph
 ```
 
-
-
-
 The keyword co-occurrence can be plotted as shown in @fig-bib_kwco_Plot
-
 
 ```{r}
 #| label: fig-bib_kwco_Plot
 #| fig-cap: "Keyword Co-occurences"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -521,8 +529,8 @@ Thematic Map
 
 ```{r}
 #| label: fig-thematicmap
-#| fig-cap: "KThematic Map"
-#| column: screen-inset-shaded
+#| fig-cap: "Thematic Map"
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -532,13 +540,29 @@ bib_thememap <- thematicMap(bibds_wos, field = "DE", n = 200, minfreq = 15,
 plot(bib_thememap$map)
 ```
 
-
-
-
-
-
-
 # Discussion
+
+Demographic ageing is a worldwide process and is associated with an increased prevalence of stroke disease. It is inevitable that family caregivers and caregiver-related problems will increase, because most people with stroke live at home. The *world stroke report* states that the number of people with stroke in need of care is rapidly increasing in developing countries, and our studies show that the studies had fair share of both developed countries and developing countries. National policies and support stroke may play an important role in this phenomenon. For example, US declare stroke a national health priotiry, and was also lunch in other countries. China, the second most productive, indicating that China also make important contribution to this field[^3].
+
+[^3]: find systematic review on stroke caregiver burden in China
+
+::: callout-note
+UK 2007 National Stroke Strategy
+:::
+
+Further analysis show that the most closely cooperating institution were located in the same country and that cooperation among countries was not very common. the variation in health care systems, culture, family structure and care arrangement across countries and regions can lead to different health problem and countermeasures for caregivers, which may be reasons for the lack of international cooperation in this type of research.
+
+::: callout-note
+variation among countries - health services - regarding stroke caregiver
+:::
+
+The Topics in Stroke Rehabilitation can be considered the most influential journal in this field, and it focuses on stroke rehabilitation. While most of the articles were published in stroke and stroke rehabilitation related journals, there were also articles published in top-tier general medical journal. For the top 10 most cited articles, 9 of them were study about the determinant or factors associated with caregiver burden, while the other one is study regarding questionnaire validity and reliability. This indicated, that interventional studies on stroke caregiver burden were lacking and not the most influential topic in this field. There were several interventional studies on stroke caregiver, but most of them were targetted on physical and psychosocial well-being of the stroke caregiver.
+
+::: callout-note
+WOS: (TI=(stroke) AND TI=(caregiver) AND TI=(trial))
+:::
+
+Other than "stroke", "caregiver" and "burden", the hotspot analysis show that other widely studied topics include "depression", "quality of life" and "determinant".
 
 # Conclusion
 
@@ -551,7 +575,7 @@ plot(bib_thememap$map)
 ```{r}
 #| label: fig-bib_ArCo_Plot
 #| fig-cap: "Article Co-citation Analysis"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
@@ -566,30 +590,24 @@ bib_ArCo_Plot <- networkPlot(bib_ArCo_NetMatrix, n = 25,
 
 ## Histiograph
 
-
-Historical Direct Citation Network for 20 authors
-
+Historical Direct Citation Network for 20 authors as shown in @fig-bib_histrio_Plot
 
 ```{r}
-#| results: hide
+#| output: false
 
 bib_histResults <- histNetwork(bibds_wos, sep = ";")
 bib_historio_plot <- histPlot(bib_histResults, n = 20, size = 5, labelsize = 4)
 ```
 
-
 ```{r}
 #| label: fig-bib_histrio_Plot
 #| fig-cap: "Historical Direct Citation Network"
-#| column: screen-inset-shaded
+#| column: page-left
 #| fig-width: 10
 #| fig-height: 7
 
 bib_historio_plot$g
-
-
 ```
-
 
 ## Co-word Analysis through Correspondence Analysis
 
@@ -623,16 +641,15 @@ bib_hindex <- Hindex(bibds_wos, field = "author", elements = bib_authors,
 
 bib_hindex$H %>% 
   arrange(desc(h_index),desc(TC)) %>% 
+  mutate(Element = str_to_title(Element)) %>% 
   head(n = 10) %>% 
   kable(digits = 2) %>% 
   kable_classic(full_width = F)
 ```
 
-
 ## Author Production over Time
 
 Since only 2 authors have produce 4 articles, it is difficult to produce this plot
-
 
 ```{r}
 bib_topAUtime <- authorProdOverTime(bibds_wos, k = 30)
