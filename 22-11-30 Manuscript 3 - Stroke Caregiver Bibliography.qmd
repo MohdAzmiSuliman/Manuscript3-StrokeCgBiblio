@@ -556,15 +556,25 @@ Further analysis show that the most closely cooperating institution were located
 variation among countries - health services - regarding stroke caregiver
 :::
 
-The Topics in Stroke Rehabilitation can be considered the most influential journal in this field, and it focuses on stroke rehabilitation. While most of the articles were published in stroke and stroke rehabilitation related journals, there were also articles published in top-tier general medical journal. For the top 10 most cited articles, 9 of them were study about the determinant or factors associated with caregiver burden, while the other one is study regarding questionnaire validity and reliability. This indicated, that interventional studies on stroke caregiver burden were lacking and not the most influential topic in this field. There were several interventional studies on stroke caregiver, but most of them were targetted on physical and psychosocial well-being of the stroke caregiver.
+The Topics in Stroke Rehabilitation can be considered the most influential journal in this field, and it focuses on stroke rehabilitation. While most of the articles were published in stroke and stroke rehabilitation related journals, there were also articles published in top-tier general medical journal. For the top 10 most cited articles, 9 of them were study about the determinant or factors associated with caregiver burden, while the other one is study regarding questionnaire validity and reliability. This indicated, that interventional studies on stroke caregiver burden were lacking and not the most influential topic in this field. There were several interventional studies on stroke caregiver, but most of them were targeted on physical and psychosocial well-being of the stroke caregiver.
 
 ::: callout-note
 WOS: (TI=(stroke) AND TI=(caregiver) AND TI=(trial))
 :::
 
-Other than "stroke", "caregiver" and "burden", the hotspot analysis show that other widely studied topics include "depression", "quality of life" and "determinant".
+Other than "stroke", "caregiver" and "burden", the hotspot analysis show that other widely studied topics include "depression", "quality of life" and "determinant". Studies have shown that approximately *30-55%* of caregivers suffer form anxiety or depression symptoms, which may result in changes in their behaviour and reduced quality of care. Although the existing outcome measures predominately focus on the negative aspect of caregiving, the positive aspects of caring, such as self-efficacy, resilience, rewards meaning and spirituality, have been overlooked. The positive aspects of caring could aid in the development of relevant positive psychology interventions. based on the above caregiver health issues, several international agreements and conventions were drafted by the WHO and stroke disease international, and some countries also have policies protecting the rights of caregivers, and national strategies for carers. However, most countries still do not have long-term care services and support for family caregiver of stroke survivors, such as intervention for caregivers health issues.
+
+Several interventional available for caregivers include psychoeducational interventions, supportive interventions, psychotherapy, interventions to improve care r competency and multicomponent intervention.
+
+Additionally, our studies shows that studies are increasingly conducted via the telephone and internet. The use of internet based intervention seem to have great potential and represent a trend for future research.
+
+There were some limitations in this study. FIrst, the data were extracted only from the WOS databse. Second, there were differences between the real research conditions, and the bibliometric analysis results, since some recently published studies were not included. Furthermore, the bibliometric mapping and thematic analysis were performed on the abstract of the information sources only; it is thus possible that the results sould have been diffeent of the publications had been analyzed in their entirety.
 
 # Conclusion
+
+An overview of research on health interventions for stroke caregivers was presented, providing information related to the number of annual publications, countries, journals, institutions, authors and research trends. There is an uregent global unmet need for effective scalable interventions for caregiver of peopele with stroke, given the fast moving pace of this research area. We believe that the key to improve health of family caregivers of stroke survivors lies in unique combination of global solutions and local knowledge. International cooperation should be strengthened to solve this problem. Future research needs the generalisation of treatment effects in different countries and caregivers of stroke survivors need to be addressed. Furthermore, it is evident that RCT evidence is only a part of the current body of evidence; more attention to non-RCT evicence may substantitally help future trial designs, and a realist review could be undertaken to enhance our understanding of the complexity of the implementation and impacts of intervention.
+
+In summary, we identify and analyzed the characteristic of the research on the health of and interventions for stroke survivors caregivers. The result may help guide researchers and funding agencies to the most important research areas in the field.
 
 # Supplementary
 
