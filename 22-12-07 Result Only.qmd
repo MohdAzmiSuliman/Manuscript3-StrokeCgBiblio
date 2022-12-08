@@ -1,0 +1,554 @@
+---
+title: "Manuscript 3 - Stroke Caregiver Burden Bibliometric"
+subtitle: "Research on Stroke Caregiver, A bibliometric Analysis"
+author: "Mohd Azmi B Suliman"
+date: last-modified
+date-format: "dddd, DD/MM/YYYY"
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-copy: hover
+    code-overflow: wrap
+    code-tools: true
+    df-print: paged
+    default-image-extension: svg
+    embed-resources: true
+    theme: sandstone
+    fontsize: 1em
+    page-layout: full
+    reference-location: margin
+    title-block-banner: true
+    title-block-style: default
+    license: "CC BY"
+toc: true
+number-sections: true
+execute: 
+  warning: false
+  cache: true
+monofont: 'Fira Code'
+bibliography: references.bib
+---
+
+# Results
+
+```{r}
+#| label: setup
+#| results: hide
+#| output: false
+
+pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
+               gtsummary, kableExtra, metagear)
+
+bibds1_wos <- convert2df(file = "22-12-07 WOS_TIstcgp1.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds2_wos <- convert2df(file = "22-12-07 WOS_TIstcgp2.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds_wos <- bind_rows(bibds1_wos, bibds2_wos)
+bibres <- biblioAnalysis(bibds_wos)
+bibres_summary <- summary(bibres)
+
+bibres_plot <- plot(bibres, k = 10)
+# error for plot
+
+bibres_instlist <- bibres$Affiliations
+
+bibres_insttable <- tibble(Rank = seq_along(bibres_instlist),
+                           InstitutionAffiliation = rownames(bibres_instlist),
+                           Np = as.integer(bibres_instlist)) %>% 
+  mutate(InstitutionAffiliation = fct_reorder(InstitutionAffiliation, Rank))
+
+bibres_sourcelist <- bibres$Sources
+
+bibres_sourcetable <- tibble(Rank = seq_along(bibres_sourcelist),
+                             SourceJournal = rownames(bibres_sourcelist),
+                             Np = as.integer(bibres_sourcelist)) %>% 
+  mutate(SourceJournal = fct_reorder(SourceJournal, Rank))
+
+bibres_sourcetablepercent <- bibres_sourcetable %>% 
+  count(Np) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1))
+
+bib_bradford <- bradford(bibds_wos)
+
+bib_bradfordtable <- bib_bradford$table %>% 
+  select(Zone, Freq, Rank) %>% 
+  tibble() %>% 
+  group_by(Zone) %>% 
+  summarise(nSO = n(),
+            nArt = sum(Freq),
+            RankRange = str_c(min(Rank), max(Rank), sep = "-")) %>% 
+  mutate(percent = nArt / sum(nArt) * 100,
+         percent = round(percent,1))
+
+bibds_noaufreq <- bibds_wos %>% 
+  select(TI, AU, DT) %>% 
+  tibble() %>% 
+  mutate(no_auth = stri_count_regex(AU, c(";")) + 1,
+         DT = fct_recode(DT, 
+                         "ARTICLE" = "ARTICLE; PROCEEDINGS PAPER",
+                         "ARTICLE" = "ARTICLE; EARLY ACCESS")) %>% 
+  rename("paper" = "TI", "author" = "AU", "type" = "DT") %>% 
+  group_by(no_auth, type) %>% 
+  summarise(freq = n(), .groups = "drop") %>% 
+  mutate(percent = freq / sum(freq) * 100,
+         percent = round(percent,1))
+
+bibres_aulist <- bibres$Authors
+
+bibres_autable <- tibble(Rank = seq_along(bibres_aulist),
+                         Author = rownames(bibres_aulist),
+                         Np = as.integer(bibres_aulist)) %>% 
+  mutate(Author = fct_reorder(Author, Rank))
+
+bibres_autablepercent <- bibres_autable %>% 
+  count(Np) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1))
+
+
+```
+
+## General Information
+
+```{r}
+#| label: bibres_summary
+#| eval: false
+
+bibres_summary
+
+# bibres_summary$AnnualProduction
+
+```
+
+In total, 662 publications on the stroke caregiver burden published between `r min(bibres$Years, na.rm = T)` and `r max(bibres$Years, na.rm = T)` were identified through our search strategy using the WOS. There were `r bibres$Articles` original articles were identified and analysed. The original articles were published by `r format(nrow(bibres$Authors), big.mark = ",")` authors in `r nrow(bibres$Sources)` journals and used `r nrow(bibres$DE)` keywords (after de-duplication). The total number of citations were `r format(sum(bibres$TotalCitation), big.mark = ",")`. Annually, the number of articles produced ranging from 20-50 per year, with annual growth rate of 14.45%[^1]
+
+[^1]: manual
+
+
+After applying the inclusion criteria described above, a sample of`r bibres$Articles` was obtained. For the past decade, the number of publication annually ranging from 20 to 50. This shows a growing interest in the subject.
+
+The annual number publication was shown in @fig-annualscientprod. The number of publications were fluctuating, ranging from 20 to 50 articles published per year. 
+
+```{r}
+#| label: fig-database_flow
+#| fig-cap: "Flow diagram for the inclusion of publication on the stroke caregiver burden"
+
+prismaplot <- plot_PRISMA(
+  c("START_PHASE: Studies identified through databse searching (n=1,004)",
+    "Publication Year: 2013-2022 (n = 662)",
+    "EXCLUDE_PHASE: before 2013 (n = 342)",
+    "Publication Type: Articles only (n=411)",
+    "EXCLUDE_PHASE: Other Type (n = 251)",
+    "Included in the analysis (n=411)"),
+  design = "classic", colWidth = 25, excludeDistance = 1
+  )
+```
+
+```{r}
+#| label: fig-annualscientprod
+#| fig-cap: "Number of Publications by Year"
+
+# bibres_plot$AnnualScientProd
+# error plot - refer setup chunk
+
+tibble(Article = rownames(bibds_wos),
+       Year = bibds_wos$PY) %>% 
+  group_by(Year) %>% 
+  summarise(n = n()) %>% 
+  ggplot(aes(x = Year, y = n)) +
+  geom_area(alpha = .3) +
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(breaks = seq(0,60,10)) +
+  scale_x_continuous(breaks = seq(2013,2022,1)) +
+  coord_cartesian(ylim = c(0,60)) +
+  labs(x = "Year", y = "Number of Publication") +
+  theme_bw()
+```
+
+## Languange
+
+```{r}
+bib_lang <- bibds_wos %>% 
+  group_by(LA) %>% 
+  summarise(n = n()) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1)) %>% 
+  arrange(desc(n))
+```
+
+
+In the field, the articles were published in total `r english::words(dplyr::pull(dplyr::count(bib_lang)))` languages, with majority of the articles published in `r stringr::str_to_title(bib_lang$LA[1])` language with whopping `r bib_lang$percent[1]`%. The articles were also published in `r stringr::str_to_title(bib_lang$LA[2])` with `r english::words(bib_lang$n[2])` articles, `r stringr::str_to_title(bib_lang$LA[3])` and `r stringr::str_to_title(bib_lang$LA[4])` with `r english::words(bib_lang$n[3])` articles, and `r english::words(bib_lang$n[5])` article for each `r stringr::str_to_title(bib_lang$LA[5])`, `r stringr::str_to_title(bib_lang$LA[6])` and `r stringr::str_to_title(bib_lang$LA[7])`. 
+
+
+
+```{r}
+bib_lang
+```
+
+
+## Country
+
+```{r}
+bibres_countrylist <- bibres$Countries
+
+bibres_countrytable <- tibble(Rank = seq_along(bibres_countrylist),
+                              Country = rownames(bibres_countrylist),
+                              Np = as.integer(bibres_countrylist)) %>% 
+  mutate(Country = fct_reorder(Country, Rank),
+         percent = Np / sum(Np) * 100,
+         percent = round(percent,1))
+
+bibressum_countrytable <- tibble(Rank = 1:10,
+       bibres_summary$TCperCountries) %>% 
+  rename("Country" = "Country     ") %>% 
+  mutate(Country = str_trim(Country),
+         Country = fct_reorder(Country, Rank),
+         `Total Citations` = as.integer(`Total Citations`),
+         `Average Article Citations` = as.double(`Average Article Citations`),
+         percent = `Total Citations` / sum(`Total Citations`) * 100,
+         percent = round(percent,1)) %>% 
+  inner_join(x = ., y = select(bibres_countrytable, Country, Np), 
+             by = "Country") %>% 
+  relocate(percent, .after = `Total Citations`)
+
+```
+
+
+When analysing the corresponding author's country, the `r bibres$Articles` articles were published in `r nrow(bibres_countrylist)` countries. The top 10 productive countries, and top 10 most total citation per country were shown in @tbl-articles_country.
+
+Concerning the countries of origin of the publication, `r bibres_countrytable$Country[1]` appears with the highest number of publication (`r bibres_countrytable$percent[1]`%), followed by `r stringr::str_to_title(bibres_countrytable$Country[2])` (`r bibres_countrytable$percent[2]`%) and `r stringr::str_to_title(bibres_countrytable$Country[3])` (`r bibres_countrytable$percent[3]`%). 
+
+When looking at the number of citations, `r bibressum_countrytable$Country[1]` appears with the highest number of total citation (`r bibressum_countrytable$percent[1]`%), followed by `r stringr::str_to_title(bibressum_countrytable$Country[2])` (`r bibressum_countrytable$percent[2]`%) and `r stringr::str_to_title(bibressum_countrytable$Country[3])` (`r bibressum_countrytable$percent[3]`%)
+
+
+```{r}
+#| label: tbl-articles_country
+#| tbl-cap: "Publication by Country (Corresponding Author's Country)"
+#| tbl-subcap: 
+#|   - "Top 10 Productive Country"
+#|   - "Top 10 Most Citation by Country"
+#| layout-ncol: 2
+#| column: page
+
+bibres_countrytable %>% 
+  rename("Number of Publications" = "Np") %>% 
+  filter(`Number of Publications` >= 12) %>% 
+  kable() %>% kable_classic(full_width = F)
+
+bibressum_countrytable %>% 
+  relocate(Np, .after = `Total Citations`) %>% 
+  rename("Number of Publications" = "Np") %>% 
+  kable(digits = 1) %>% kable_classic(full_width = F)
+
+```
+
+
+
+```{r}
+#| label: fig-mostprodcountries
+#| fig-cap: "Number of Publication by top 10 countries"
+#| eval: false
+
+# bibres_plot$MostProdCountries
+# error plot - refer setup chunk
+
+bibres_countrytable %>%
+  filter(Rank <= 11) %>%
+  ggplot(aes(x = Np, y = Country)) +
+  geom_bar(stat = "identity") +
+#  scale_x_continuous(breaks = seq(0,15,2)) +
+  labs(x = "Number of Publications") +
+  theme_bw()
+  
+```
+
+The collaboration network between the corresponding author's countries was shown in @fig-countries_collaboration.
+
+```{r}
+#| label: fig-countries_collaboration
+#| fig-cap: "Countries Collaboration Map" 
+#| column: page-inset-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_concolab <- metaTagExtraction(bibds_wos, Field = "AU_CO", sep = ";")
+
+bib_concolab_NetMatrix <- biblioNetwork(bib_concolab, analysis = "collaboration",
+                                       network = "countries", sep = ";")
+
+bib_concolab_Plot <- networkPlot(bib_concolab_NetMatrix, 
+                                 n = dim(bib_concolab_NetMatrix)[1], 
+                                 Title = "Country collaboration", type = "auto", 
+                                 size=10, size.cex=T, edgesize = 2, labelsize=1.1,
+                                 edges.min = 2, remove.isolates = T, community.repulsion = 0,
+                                 cluster = "none")
+
+```
+
+## Institution
+
+The publications in this field were from `r nrow(bibres_instlist)` institutions. The top 10 productive institutions were shown in @tbl-top10institution. The collaboration network between the institution was shown in @fig-bib_EduColabPlot.
+
+```{r}
+#| label: tbl-top10institution
+#| tbl-cap: "Most Productive Institution"
+
+bibres_insttable %>% 
+  rename("Number of Publications" = "Np",
+         "Instituion Name" = "InstitutionAffiliation") %>% 
+  mutate(`Instituion Name` = stringr::str_to_title(`Instituion Name`)) %>% 
+  filter(`Number of Publications` >= 15) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+```{r}
+#| label: fig-bib_EduColabPlot
+#| fig-cap: "Institution Collaboration Map"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_educolab_NetMatrix <- biblioNetwork(bibds_wos, analysis = "collaboration",
+                                       network = "universities", sep = ";")
+
+bib_educolab_Plot <- networkPlot(bib_educolab_NetMatrix, n = 25, 
+                                 cluster = "optimal", type = "auto",
+                                 size.cex = F, size = 3, remove.multiple = F,
+                                 labelsize=1, alpha = .7, edgesize = 1,
+                                 edges.min = 5, remove.isolates = T, 
+                                 community.repulsion = 0,
+                                 Title = "Institutions collaboration")
+```
+
+## Journals
+
+A total of `r nrow(bibres_sourcelist)` journals have published articles in this field. Most of the journals only produced one article (`r bibres_sourcetablepercent$percent[1]`%). Based on Bradford's Law, there were `r bib_bradfordtable$nSO[1]` journal in Zone 1, as the listed in @tbl-zone1_bradford.
+
+Based on Bradford's Law, Zone 1, which represent a core of a few journals, listed  `r bib_bradfordtable$nSO[1]` most productive journal, with total of `r bib_bradfordtable$nArt[1]` articles published, correponding to `r bib_bradfordtable$percent[1]`% of total publications.
+
+The top three journals were (1) `r stringr::str_to_title(bib_bradford$table$SO[1])` (n = `r bib_bradford$table$Freq[1]`), with a 2021 journal impact factor (JIF) of 2.18^[manual]; (2) `r stringr::str_to_title(bib_bradford$table$SO[2])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 3.01^[manual]; and (3) `r stringr::str_to_title(bib_bradford$table$SO[3])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 2.44^[manual].
+
+The top 14 active journals were presented in @tbl-zone1_bradford, accounting for `r bib_bradfordtable$percent[1]`% of total `r bibres$Articles` articles. The top three journals were (1) `r stringr::str_to_title(bib_bradford$table$SO[1])` (n = `r bib_bradford$table$Freq[1]`), with a 2021 journal impact factor (JIF) of 2.18^[manual]; (2) `r stringr::str_to_title(bib_bradford$table$SO[2])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 3.01^[manual]; and (3) `r stringr::str_to_title(bib_bradford$table$SO[3])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 2.44^[manual].
+
+In the Zone 1, the journal was in stroke related field, rehabilitation related field, nursing related field, and general medical journals.
+
+```{r}
+#| label: tbl-Zone_Bradford
+#| tbl-cap: "No of Journals and Articles by Zone of Bradford's Law"
+
+bib_bradfordtable %>% 
+  select(-percent) %>% 
+  rename("No of Source (Journal)" = "nSO",
+       "Total Article" = "nArt",
+       "Source Rank" = "RankRange")%>% 
+  kable() %>% 
+  kable_classic(full_width = F)
+```
+
+```{r}
+#| label: tbl-zone1_bradford
+#| tbl-cap: "Journals in Zone 1 of Bradford's Law"
+
+bib_bradford$table %>% 
+  filter(Zone == "Zone 1") %>% 
+  tibble() %>% 
+  mutate(SO = stringr::str_to_title(SO)) %>% 
+  rename("Journal Name" = "SO") %>% 
+  kable() %>% 
+  kable_classic(full_width = F)
+
+```
+
+```{r}
+#| eval: false
+
+## label: tbl-top15journal
+## tbl-cap: "Most Productive Journal"
+
+# bibres_sourcetable %>% 
+#   rename("Number of Publications" = "Np",
+#          "Source (Journal)" = "SourceJournal") %>% 
+#   mutate(`Source (Journal)` = stringr::str_to_title(`Source (Journal)`)) %>% 
+#   head(n = 15) %>% 
+#   kable() %>% kable_classic(full_width = F)
+
+```
+
+Journal co-citation analysis as shown in @fig-bib_CRSO_Plot
+
+```{r}
+#| label: fig-bib_CRSO_Plot
+#| fig-cap: "Journal Co-citation Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_CRSO <- metaTagExtraction(bibds_wos, Field = "CR_SO", sep = ";")
+bib_CRSO_NetMatrix <- biblioNetwork(bib_CRSO, analysis = "co-citation", 
+                                    network = "sources", sep = ";")
+bib_CRSO_Plot <- networkPlot(bib_CRSO_NetMatrix, n = 20, 
+                             Title = "Co-citation Network", type = "auto", 
+                             size.cex = T, size = 20, remove.multiple = F,
+                             labelsize = 1, edgesize = 5, edges.min = 5, alpha = 1)
+```
+
+## Authors
+
+Out of total `r format(sum(bibres_autable$Np), big.mark = ",")` authors, majority of them appear once (`r max(bibres_autablepercent$percent)`%). The top 10 most productive authors were listed in @tbl-top10authors
+
+As shown in @tbl-top10authors, `r stringr::str_to_title(bibres_autable$Author[1])` was the most prolific research, publishing `r bibres_autable$Np[1]` articles. His research mainly focused on .....
+
+As shown in @fig-bib_AuCoupling_Plot, there was active co-operation relationships among the top productive reseach.
+
+
+::: callout-note
+find what most Bakas T papers about (among the articles)
+:::
+
+```{r}
+#| label: tbl-top10authors
+#| tbl-cap: "Most Productive Authors"
+
+bibres_autable %>% 
+  rename("Number of Publications" = "Np") %>% 
+  mutate(Author = stringr::str_to_title(Author)) %>% 
+  head(n = 10) %>% 
+  kable() %>% kable_classic(full_width = F)
+
+```
+
+The articles have `r english::words(min(bibds_noaufreq$no_auth))` to `r max(bibds_noaufreq$no_auth)` authors, with majority of them had `r english::words(bibds_noaufreq$no_auth[4])` authors (`r format(bibds_noaufreq$percent[4], nsmall = 1)`%). The number of authors for each articles were summarised in @fig-bibds_noaufreq
+
+```{r}
+#| label: fig-bibds_noaufreq
+#| fig-cap: "Number of authors per articles"
+
+bibds_noaufreq %>% 
+  ggplot(aes(no_auth, freq)) + 
+  geom_bar(stat = "identity") + 
+  labs(x = "Number of Authors", y = "Frequency (Number of Articles)") + 
+  scale_x_continuous(breaks = seq(0,30,4)) +
+  scale_y_continuous(breaks = seq(0,80,10)) +
+  theme_bw()
+```
+
+
+All articles were subjected to a author coupling analysis to produce the network map, as shown in @fig-bib_AuCoupling_Plot. The connection between two nodes indicates that the articles have a common references, and the weighting reflect the coupling strength of the two nodes
+
+The author coupling analysis show the co-citation between the authors, as shown in @fig-bib_AuCoupling_Plot. Most of the top productive authors had co-citations links. The author coupling analysis allow understanding of grouping of authorship content, in which the networking show two cluster, one lead by Bakas T and another lead by Koh GCH.
+
+The knowledge base consisted of a collection of co-cited documents. A network of co-citation analysis was constructed to map the knowledge base of a research field. First, we conducted a co-citation analysis all the articles. @fig-bib_kwco_Plot show the major clustering results of co-citations by time. 
+
+```{r}
+#| label: fig-bib_AuCoupling_Plot
+#| fig-cap: "Author Coupling Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_AuCoupling_NetMatrix <- biblioNetwork(bibds_wos, analysis = "coupling",
+                                          network = "authors", sep = ";")
+
+bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 15, 
+                                   cluster = "optimal", type = "auto", 
+                                   size.cex = T, size = 20, remove.multiple = F,
+                                   Title = "Bibliographic coupling of the authors",
+                                   alpha = .7)
+```
+
+## Articles and References
+
+The top 10 most cited articles as shown in @tbl-top10citedarticles
+
+Highly cited articles can be used to identify the key knowledge base of each research field. The top most cited articles were presented in @tbl-top10citedarticles. Among the top most cited articles, the highest cited articles was about highly needed areas for research in caregiver field, and the rest of the top most cited articles were mixture of (1) qualitative and (2) quantitative studies, both measuring or exploring the level and the determinant of quality of life, anxiety, depression and burden of caregivers, and (3) interventional studies to improve well-being and skill of caregivers.
+
+```{r}
+#| label: tbl-top10citedarticles
+#| tbl-cap: "Top 10 Most Cited Articles on Stroke Caregiver Burden"
+#| column: page
+
+tibble(Title = bibds_wos$TI,
+       Author = bibds_wos$AU,
+       DOI = bibds_wos$DI,
+       Citations = bibds_wos$TC) %>% 
+  mutate(across(.cols = c(Title, Author),
+                .fns = str_to_title)) %>% 
+  arrange(desc(Citations)) %>% 
+  head(n=10) %>% 
+  kable() %>% kable_classic()
+```
+
+## Keyword
+
+::: callout-note
+summarise on keyword co-occurence matrix plot
+:::
+
+Top 10 of most relevance keywords were shown in @tbl-top10keyword.
+
+Using `bibliometrix` package, it was possible to analyse the most commonly used keywords in citations, most relevant being stroke, caregiver, survivor, burden, quality of life, health, depression and care.
+
+The keyword have 3 major cluster, with one cluster lead by survivors, another with burden and third cluster lead by care.
+
+```{r}
+#| label: tbl-top10keyword
+#| tbl-cap: "Top 10 Most Relevance Keyword"
+
+cbind(Rank = 1:10,
+      bibres_summary$MostRelKeywords) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+The keyword co-occurrence can be plotted as shown in @fig-bib_kwco_Plot
+
+```{r}
+#| label: fig-bib_kwco_Plot
+#| fig-cap: "Keyword Co-occurences"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_kwco_NetMatrix <- biblioNetwork(bibds_wos, analysis = "co-occurrences", 
+                                     network = "keywords", sep = ";")
+
+bib_kwco_Plot <- networkPlot(bib_kwco_NetMatrix, normalize = "association", 
+                             n = 20, Title = "Keyword Co-occurences", 
+                             cluster = "optimal", type = "fruchterman", 
+                             size.cex = T, size = 20,  remove.multiple = F, 
+                             edgesize = 7, labelsize = 3, label.cex = T, 
+                             label.n = 20, edges.min = 10)
+```
+
+
+Author keyword Trend
+
+
+```{r}
+bib_themeevolution_de <- fieldByYear(bibds_wos, field = "DE", 
+                                     timespan = c(2013,2022), min.freq = 20, 
+                                     n.items = 5)
+```
+
+
+Thematic Map
+
+```{r}
+#| label: fig-thematicmap
+#| fig-cap: "Thematic Map"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_thememap <- thematicMap(bibds_wos, field = "DE", n = 500, minfreq = 10, 
+                            stemming = F, size = .5, n.labels = 5, repel = T)
+
+plot(bib_thememap$map)
+```
+
+
+# End
+
+No more

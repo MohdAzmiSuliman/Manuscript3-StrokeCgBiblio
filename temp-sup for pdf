@@ -1,0 +1,80 @@
+
+
+
+
+
+
+
+
+# Supplementary
+
+## Co-citation Network
+
+### References
+
+## Histiograph
+
+Historical Direct Citation Network for 20 authors as shown in @fig-bib_histrio_Plot
+
+```{r}
+#| output: false
+
+bib_histResults <- histNetwork(bibds_wos, sep = ";")
+bib_historio_plot <- histPlot(bib_histResults, n = 20, size = 5, labelsize = 4)
+```
+
+```{r}
+#| label: fig-bib_histrio_Plot
+#| fig-cap: "Historical Direct Citation Network"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_historio_plot$g
+```
+
+## Co-word Analysis through Correspondence Analysis
+
+```{r}
+bib_CS_Plot <- conceptualStructure(bibds_wos, method = "MCA", field = "ID", 
+                                   minDegree = 15, clust = 5, stemming = F, 
+                                   labelsize = 15, documents = 20)
+```
+
+## Other Author's related Analysis
+
+### Author dominance ranking
+
+```{r}
+#| label: tbl-authordominance
+#| tbl-cap: "Top 10 Author Dominance"
+
+dominance(bibres, k = 10) %>% 
+  mutate(Author = stringr::str_to_title(Author)) %>% 
+  kable() %>% 
+  kable_classic(full_width = F)
+```
+
+### Author H-Index
+
+```{r}
+bib_authors <- gsub(","," ",names(bibres$Authors))
+
+bib_hindex <- Hindex(bibds_wos, field = "author", elements = bib_authors,
+                    sep = ";", years = 20)
+
+bib_hindex$H %>% 
+  arrange(desc(h_index),desc(TC)) %>% 
+  mutate(Element = stringr::str_to_title(Element)) %>% 
+  head(n = 10) %>% 
+  kable(digits = 2) %>% 
+  kable_classic(full_width = F)
+```
+
+## Author Production over Time
+
+Since only 2 authors have produce 4 articles, it is difficult to produce this plot
+
+```{r}
+bib_topAUtime <- authorProdOverTime(bibds_wos, k = 30)
+```

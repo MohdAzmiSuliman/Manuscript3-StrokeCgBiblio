@@ -1,0 +1,848 @@
+---
+title: "Manuscript 3 - Stroke Caregiver Burden Bibliometric"
+subtitle: "Research on Stroke Caregiver Burden, A bibliometric Analysis"
+author: "Mohd Azmi B Suliman"
+date: last-modified
+date-format: "dddd, DD/MM/YYYY"
+format: 
+  pdf:
+    df-print: kable
+    default-image-extension: svg
+    license: "CC BY"
+    linestretch: 1.5
+    geometry: 
+      - top = 15mm
+      - left = 15mm
+      - bottom = 20mm
+      - right = 40mm
+number-sections: true
+execute:
+  echo: false
+  warning: false
+  cache: true
+bibliography: references.bib
+csl: harvard-cite-them-right.csl
+dpi: 320
+---
+
+# Front Matter
+
+Title: Research on Stroke Caregiver, A bibliometric Analysis
+
+Authors: Mohd Azmi Bin Suliman, Mohd Khairul Anwar Bin Kamdi, Tengku Muhammad Hanis, Kamarul Imran Musa
+
+## Abstract
+
+**Introduction**: Stroke is a serious and growing health problem, and since most people with stroke live at home, caring responsibilities generally fall on family members. Caregivers are often inadequately supported by formal health services and have poorer psychological and physical health. Our study aimed to compare the contribution of publications from different countries, institution and authors and present a bibliometric analysis to determine the hotspots and trend in research concerning the health and interventions for family stroke caregivers
+
+Due to the increase in care needs among stroke survivor, the concept of caregiver has emerged. This concept has udergone changes over the years due to new approaches and new research in the area. It is in this context that the concept of informal caregiver emerged.
+
+Stroke, *a major cardiovascular disease*, may reach a global prevalence of ...*add 1 para about caregiver*. Much researh has been conducted in this fiedl, but few bibliometric studies have been performed.
+
+**Design**: A bibliometric analysis of caregiving literature was undertaken.
+
+**Methods**: Studies published during 2013-2022 were extracted from the Web of Science (WOS). Each abstract of publications was evaluated to obtain the basic information. A bibliometric analysis was used to evaluate the number or cooperation networks of publications, countries, institution, journal, citations, authors, references and keywords. The resulting articles were analysed descriptively and the publication keywords were visualized using `bibliometrix` package in R.
+
+`bibliometrix` was used to analyse research published between 2013-2022. A references-based co-citation analysis was used to identify the inttelectual landscape of caregiving research. A keywords-based co-occurence analysis with citation bursts was used to explore research hotspots and frontiers. Lastly, a co-authorship network analysis was used to identify co-operation among authors, countries and institution.
+
+We analysed, via Web of Science (WOS), the scientific output relating to stroke caregivers. Quantitative (number of publications) and citation analyses were performed for output globally
+
+**Aims**: to explore the intellectual landscape of caregiving studies and identify research trends and hotspots in this field.
+
+This study aim to anlyse the evolution of the caregiver concept. Bibliography data was collected from Web of Science Collection and bibliometirc analysis was done.
+
+We aim to analyse the changes in scientific output relating to stroke caregivers
+
+**Results**: There were 1,004 publications were identified, with 412 of them were original articles published in 2013-2022. The number of publications ranging from 20 to 50 per year. The USA has the highest number of publication (21.9%) followed by China (14.5%) and Candaa (4.8%). The University of Toronto was the most productive institution, the Topics in Stroke Rehabilitation journal was the most productive journal. Most productive author was Bakas T. A co-occurrence analysis of the keywords reveals a mainstream research focus on stroke survivors, family caregivers, quality of life, determinant, care and impact. The keyword "family caregivers", "nursing", "anxiety" and "quality of life" reflect the latest hotspots, appearing in approximately 2015-2021.
+
+There were 412 original articles publish between 2013 and 2022. The following research boundaries emerged from the analysis "burden", "quality-of-life", "depression", "care", "rehabilitation" and "family caregivers"
+
+For the past 10 years, the number of publication on stroke caregiver was consistently 20-50 publications per year. Relevant literature mainly focused on the the caregiver well-being, The keywords-based analysis indicated that the main research target was consistently about rehabilitation and caregiver well-being, with recently more focused on quality of life, depression and anxiety.
+
+In total, 678 articles with title containing term stroke and caregiver, were identified in WOS. The growth rate was 12.38%. Of the 678 article, *xx%* had uthros from USA. the articles appeared in more than *400* journals and were cited nearly *xxx* times.
+
+
+**Conclusion**: Our study details the performance statistics, main topics and trend research on the health of and interventions for stroke caregivers from 2013-2022 and provides a comprehensive analysis.
+
+Both stroke caregivers and the care recipient (i.e. the stroke survivors) well-being and rehabilitation process had been the forefront in stroke caregiver related researched.
+
+This bibliometric analysis helps us understand the current state of stroke caregiver research and its recent development
+
+Bibliometric analysis of the studies into stroke caregiver enable us to understanding the intellectual contribution among the author, institutions and countries. This study allowed us to validate our methodology, which could be use to evaluat research policies and to promote international cooperation
+
+**Keywords**: Bibliometric analysis; stroke caregivers burden; research trends
+
+bibliometric analysis; stroke caregiver; research evaluation studies
+
+# Introduction
+
+The majority of stroke survivors living at home were cared for by their spouses and children. Due to the ageing of the world population, the numbers of stroke survivors is expected to increase from by *xxx* by *2030*, however support services for caregivers are not expected to increase at the same rate.
+
+Increase non-communicable diseases incidence worldwide increase the risk of stroke. With advancement of medical technology, more stroke patients survives their acute stroke episodes. However stroke survivors may develop residual disability. With increase number of stroke incidence, brings with it an increase in the degree of dependence of the stroke survivors, requiring care which brings family changes, which lead to the need to adpat to the new life situation. In this readjustment process, healthcare workers in rehabilitation facilities need to facilitated the management of the transition to the new realityu, implementing interventions aimed not only at the stroke survivors, but also at the family members and caregivers
+
+within the scope of the caregiver's role, a transition which is commonly seen is the transtion of roles or function. In this type of transition, there is a change in the role played, ofthen within the family, which generates a reformulation of expectation and changes in the defintion of agents as individuals an thier role in the social context. This transition requires and adaptation that include the acquisiton of knowledge, skills and abilitis to deal with the problems that arise at the self-care level and that affect the well-being and, in this sense, the healthcare workers plays a key role in rpomoting the stroke survivors readaptation
+
+As the better positioned professional to help the person in these transition, health care workers assess psychosocial needs and direct their intervetion according to individual needs, empowring the caregiver to perform their role, allowing for greater adherence to the therapeutic regimen of the stroke survivors.
+
+stroke is a major cardiovascular disease and expected to reach a global prevalence of xxx by xxx. Despite major therapeutic advances and public health effort, the awareness, treatment and control fo stroke remain less than optimal, and vary between countries. Given the overal burden of stroke, it s not surprising that there has been considerable research in this field over the past several decades, involving many medical and other scientific specialitis. This has led to specialist journals, such as "Topics In Stroke Rehabilitation" and "Stroke", which were launched in 19xx and 19xx respectively.
+
+In PubMed, the search term "stroke" return approximately xxxx articles published since 19xx.  In addition to stroke, these articles consider disorders related to stroke, including hypertension, elderly and alzheimer disease.
+
+::: callout-note
+1 para (3-4 sentences) on stroke & stroke epidemiology
+:::
+
+The health of caregivers can be overlooked and they have been referred to as 'silent patients' or 'secondary patients'. The negative outcomes associated with caregiving include depression and anxiety, and caregivers exhibit high rates of mood disorders. The heavy burden and psychological distress caused by caring for relative with dementia may also contribute to severe physical and psychiatric problems and higher mortality risk. Recognizing this need, interventions have been developed to address the negative effect of caregiving, including education, respite, psychotherapeutic, family support, and multicomponent approaches. In recent decades, the research on this topic has covered a wide spectrum. However, a detailed analysis if the existing research publication landscape has not been undertaken to elucidate the body of published evidence. Such an analysis would be helpful for delineating the global trends in the research fields related to the health of and interventions for stroke caregivers.
+
+the caregiver present themselves as an ally to the health team. Person-centred care is a partnership between the stroke survivors and teir caregivers, whether family, neighbours, or friends, who provide emotional, physical or practical support in response to illness, disability or needs. This type of approach implies that the specific needs, preferences and expectations of the stroke survivors and their caregivers are continuously assessed, respected and considered in care planning, implementation and adaptation of care over time.
+
+Based on the approaches mentioned above, informal caregivers should be seen as an integral part of the health system, due to their high relevance in today's society, in order to maintain the quality of care and quality of life of both stroke survivors and the caregiver themselves. The care developed should be centred on the person and the caregiver, who is conisdered in several countries as a critical component of high=quality care, respecting their needs, preferences and expectaions when implementing and adapting the care plan for adherence to the therapeutic regime. In this sense, the caregiver is the main focus of attention, which justifies the development of this research.
+
+Stroke survivors often experience considerable distress. Meanwhile, their caregivers may also experience mental and physical problems, such as depression, seleep distrubances and fatigue. 
+
+recently, researchers have not only focused on patients, but also on the health of caregivers. Studies indicate that caregivers paly an important role in the rehabiliation process of patients. moreover, many interventions for patient-caregiver dyad have attempted to improve both caregiver's and patient's ehalth.
+
+Recently, research on caregiver has increased greatly and many related articles have been published by academic journals. However, researcher on caregivers has increse greatly and many related articles have been publisehd by academic journals. However, researchers have yet analyse systematically the evolution of academic achievements in this field. Thereofre, an innovative method is needed to make sense of the state of resaerhc on stroke caregivers.
+
+::: callout-note
+1-2 para (6-8 sentences) on stroke caregiver
+
+-   epidemiology
+-   need for intervention
+:::
+
+Scientometrics is the quantitative study of science, communication in science and science policy. An integral part of scientometric analysis is bibliometric mapping. Bibliometric analysis combines mathematical and statistical mehtods for quantitative analysis. Bibliometric and scientometric analyses have been widely used in various areas to analyse previous research, explore evolution processess, and predict emerging trends in a specific field. In field of nursing, bibliometric and scientometric analyses have been appplied to analyse journal publications and compared differnt journals. Additionally, this method has been adopted to analyse specific topics, such as chronic disease self-management and pain management. However, to our knowledge, no study has used bibliometric analysis to explore the research trends and hotpsot of caregiving studies, specific to stroke caregivers. In this study, we conducted a systematic analysis of past studien on stroke caregivers, using `bibliometrix` package in R.
+
+`bibliometrix` is an information visualization software developed using..., this software can visualize emerging trends and abrupt changes in specific fields within a designated period and has powerful co-ciataion, co-occurence and co-authorship analyusis functionalities. bibliometrix has been widely used to conduct scientometric analyses in many specific areas worldwide.
+
+biomedical research has expanded markedly in recent years, with number of articles indexed in PubMed more than doubling from 414k articles to 1023k articles in 2016. Has the number of publications in stroke caregivers double over the same period? which countries are most active in this research? what kind of research has been performed?
+
+
+::: callout-note
+optional 1 para on bibliometric analysis - redundant with methodology part
+
+- 10.3145/epi.2020.ene.03 
+
+for number of articles in database
+
+- https://doi.org/10.1162/qss_a_00018
+
+:::
+
+The aims of this study were to examine the publication patterns of research on stroke caregiver burden at a global level. we attempted to provide comprehensive insights into the current state of global research, including annual output characteristic, international collaborations, and keywords trends. The results should provide a better understanding of the global trends in the research on the stroke caregiver burden and indicate directions for further research.
+
+In the preparaion of this research, it was found that there are several terms related to the informal caregiver/family caregiver and not all terms are part of DECS and MESH. On the other hand, it become important to ideitfy the researchrs who stand out for the quality and peer recognition of their contribution, as weel as the pattern of publication and their behaviour over time. Thus with this bibliometric analysis of published studies related to the concept of informal caregiver / family caregiver, we intended to answer the following research question: How is the scientific production on the concept of informal caregiver characterized? The general objective was to present the characteristics of the scientific production on the topic, specifically regarding the aspects of authorship, cited work, co-authorship networks and bibliographic coupling.
+
+THe main aim of this study was to identify research trends, journals, and disciplines that were most represented in caregiver studies in journals. An additional aim was to explore the intellectual landscape of studies on caregivers. Furthermore, we aimed to identify which research frontiers could lead to collaborations between countries, authors, and isnstitution.
+
+the aim of our work was to analyse via WOS, the scientific output in the field of stroke caregivers and 
+
+::: callout-note
+1 para for objectives and study justification
+:::
+
+
+
+# Methodology
+
+The data were downloaded from public databases and as secondary data, did not require any interactions with human subjects. There were no ethical issues associated with the data, and approval from institutional review boards was not required.
+
+The data were obtained from Web of Science on 1st December, 2022, with publications published in the between 1996 and 2022 were retrieved. The keyword used in the search were as follow: (TI=(stroke) AND TI=(caregiver) AND TI=(burden)). *Two independent researchers* conducted the research simultaneously to ensure that the search was accurate and that all relevant manuscripts were identified and included. The search result form the Web of Science database were subsequently filtered to include the article type only. A bibtex data download from the WOS included the author names, contact address, title, publication year, abstract, author keyword, journal information and cited references.
+
+Bibliometrics is defined as the application of statistics and mathematics for the analysis of written publications such as books and journal articles. Bibliometric techniques can be used to perform statistical and quantitative analysis of publications and offer a convenient way to visibly measure researchers efforts in the investigation of a specific field. Such analyses can characterize the development in certain field and have contributed substantially to informing policy making, clinical guidelines and research trends. Impact factors were taken from those published by the WOS in 2018. Cooperation among countries or institution was based on the first authors. Collaboration type was determined by the addresses of the authors, where the term 'single-country article' was assigned if the researchers' addresses were in the same country. The term 'internationally collaborative article' was used to designate those articles that were co-authored by researchers from multiple countries.
+
+The data were analysed both quantitatively and qualitatively. We describe the research status of this field based on statistics regarding the number of articles and their distribution across countries and in time and space, subjects, journal, and high-yield institutions and authors. Moreover, the corpus was analysed to generate different scientific landscapes and networks. We analysed the cooperation situation in this field among countries and institutions via cooperation analysis; the intrinsic links among authors via bibliographic coupling; and the reference network and frequently cited literature via co-citation analysis. in the hotspot analysis, we captured high-frequency keywords for the clustering and co-occurrence analyses. The bibliometric analysis in this study was performed and visualized using `bibliometric` package in R and RStudio.
+
+Web of Science was selected as the academic publication source in this study because it is the largest research database.
+
+------------------------------------------------------------------------
+
+## Type of Research
+
+This is a bibliometric analysis, which essentially consist of a statistical and quantitative technique that allow the measuring of the production and dissemination rate of knowledge, monitoring of the development of the concept under study in the various scientific areas and areas of interest, and analysis of publication patterns. This type of analysis aims to quantify and analyse the processess of written communication through mathematical and statistical analysis to determine the nature and historical evolution of a particular discipline or concept.
+
+This analysis assume significant importance since it deciphers and maps scientific knowledges as well as established nuances, responding to large volumes of data in a consistent manner, building solid bases for scientific contribution according to their respective fields of action. Thus bibliometric analysis can reveal emerging development areas of scientific knowledge in a respective field, contributing to the evolution of scientific knowledge and generating research opportunities.
+
+This methodology has been rapidly growing academic interest among researhcers due to the increased availability of databases and software used.
+
+This analysis was conducted following four steps: (1) Definition of the study objective; (2) Choice of the analysis technique; (3) collection of data for analysis; (4) performance of the bibliometric analysis and exposure of the respective result.
+
+
+## Ethical consideration
+
+As this study was conducted without any huma subjects, an ethical review was not required.
+
+
+
+## Search Strategry, Study Selection and Data Extraction
+
+Criteria for selection was established, to include only empirical studies - or original articles, publications in scientific journals, limited to recent 10 years (2013-2022), published in any languge.
+
+A search in Web of Science was then performed with the following search equation: (TI=(stroke) AND TI=(caregiver)), refined by: Document Types: (ARTICLE).
+
+The search was performed on 3rd December 2022 at 09:00 GMT +1. After the search in the Web of Science, bibtex data was download and analysed using `bibliometric` package in R (version 4.2.2) and RStudio (version 2022.07.2) [@ariaBibliometrixRtoolComprehensive2017; @rcoreteamLanguageEnvironmentStatistical2022; @rstudioteamRStudioIntegratedDevelopment2022].
+
+The search and data extraction were validated by two independent researchers.
+
+
+Literature retrival was conducted using the Web of Science Database, on 3rd Decembeer 2022. 
+
+Search strategy and result are shown in figure 1. Search terms include "caregiver" and "stroke". Language was not restricted, but publication was set to "article". Publication time was limited to 2013-2022. 
+
+
+## Statistical Analysis of the Data
+
+The bibliometric analysis was carried out simultaneously to the extraction of the bibliometric data and took into consideration its two main techniques: performance analysis, which allows examining the contributions of research to a given field in a descriptive way and which reveals itself as initial phase of bibliomteric studies; and scientific mapping, which examines the relationships between the constituients of research, where analysis relates to the intellectual interaction and structural connections between the constituents of research.
+
+The descriptions of the data based on graphs, figures and tables were produced by the `bibliometix` packages in R and RStudio.
+
+biliometric analysis was carrioud using R and RStudio, and `bibliometrix` packages. The `bibliometrix` packages was used to visualize the distribution of research fields, generate cluster of co-citing reference publication, explore the intellectual landscape of studyies about caregivers by time, analyse co-occuring keywords and burst terms to detect trends and frontiers, and identify leading collaboration among countries, authors and instituition. 
+
+- - - - -  -
+
+Data were extracted from the Web of Sciences
+
+## Search Term
+
+To ensure the publications were focus on stroke caregivers, the term use only limit to term "Stroke" and "caregiver" in the title.
+
+## Analysis
+
+after search term, bibtex data were download from WOS, and analysed in R and RStudio with `bibliometrix` packages. `bibliometrix` packages allowed analysis of bibliometric indicators relating to authors, institutions, countries and region. It also allow investigator to focus on thematic fields.
+
+
+We first compared the total global output relating to stroke caregiver. We then lloked at the contribution from major countries to the global output, assessed on the basis of number of articles with authors from each country.
+
+In addition, the impact of the research was evaluated by analysis of the frequency of citations. However, the number of citation depend in part on the year of publication - older articles have had more opportunity to be cited, and the scientific field.
+
+
+::: callout-note
+update these 2 para
+
+-   methodology - what was done in analysis (i.e. the result)
+:::
+
+
+# Results
+
+```{r}
+#| label: setup
+#| results: hide
+#| output: false
+
+pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
+               gtsummary, kableExtra, metagear)
+
+bibds1_wos <- convert2df(file = "22-12-07 WOS_TIstcgp1.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds2_wos <- convert2df(file = "22-12-07 WOS_TIstcgp2.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds_wos <- bind_rows(bibds1_wos, bibds2_wos)
+bibres <- biblioAnalysis(bibds_wos)
+bibres_summary <- summary(bibres)
+
+bibres_plot <- plot(bibres, k = 10)
+# error for plot
+
+bib_lang <- bibds_wos %>% 
+  group_by(LA) %>% 
+  summarise(n = n()) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1)) %>% 
+  arrange(desc(n))
+
+bibres_countrylist <- bibres$Countries
+
+bibres_countrytable <- tibble(Rank = seq_along(bibres_countrylist),
+                              Country = rownames(bibres_countrylist),
+                              Np = as.integer(bibres_countrylist)) %>% 
+  mutate(Country = fct_reorder(Country, Rank),
+         percent = Np / sum(Np) * 100,
+         percent = round(percent,1))
+
+bibressum_countrytable <- tibble(Rank = 1:10,
+       bibres_summary$TCperCountries) %>% 
+  rename("Country" = "Country     ") %>% 
+  mutate(Country = str_trim(Country),
+         Country = fct_reorder(Country, Rank),
+         `Total Citations` = as.integer(`Total Citations`),
+         `Average Article Citations` = as.double(`Average Article Citations`),
+         percent = `Total Citations` / sum(`Total Citations`) * 100,
+         percent = round(percent,1)) %>% 
+  inner_join(x = ., y = select(bibres_countrytable, Country, Np), 
+             by = "Country") %>% 
+  relocate(percent, .after = `Total Citations`)
+
+bibres_instlist <- bibres$Affiliations
+
+bibres_insttable <- tibble(Rank = seq_along(bibres_instlist),
+                           InstitutionAffiliation = rownames(bibres_instlist),
+                           Np = as.integer(bibres_instlist)) %>% 
+  mutate(InstitutionAffiliation = fct_reorder(InstitutionAffiliation, Rank))
+
+bibres_sourcelist <- bibres$Sources
+
+bibres_sourcetable <- tibble(Rank = seq_along(bibres_sourcelist),
+                             SourceJournal = rownames(bibres_sourcelist),
+                             Np = as.integer(bibres_sourcelist)) %>% 
+  mutate(SourceJournal = fct_reorder(SourceJournal, Rank))
+
+bibres_sourcetablepercent <- bibres_sourcetable %>% 
+  count(Np) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1))
+
+bib_bradford <- bradford(bibds_wos)
+
+bib_bradfordtable <- bib_bradford$table %>% 
+  select(Zone, Freq, Rank) %>% 
+  tibble() %>% 
+  group_by(Zone) %>% 
+  summarise(nSO = n(),
+            nArt = sum(Freq),
+            RankRange = str_c(min(Rank), max(Rank), sep = "-")) %>% 
+  mutate(percent = nArt / sum(nArt) * 100,
+         percent = round(percent,1))
+
+bibds_noaufreq <- bibds_wos %>% 
+  select(TI, AU, DT) %>% 
+  tibble() %>% 
+  mutate(no_auth = stri_count_regex(AU, c(";")) + 1,
+         DT = fct_recode(DT, 
+                         "ARTICLE" = "ARTICLE; PROCEEDINGS PAPER",
+                         "ARTICLE" = "ARTICLE; EARLY ACCESS",
+                         "REVIEW" = "REVIEW; EARLY ACCESS")) %>% 
+  rename("paper" = "TI", "author" = "AU", "type" = "DT") %>% 
+  group_by(no_auth, type) %>% 
+  summarise(freq = n(), .groups = "drop") %>% 
+  mutate(percent = freq / sum(freq) * 100,
+         percent = round(percent,1))
+
+bibres_aulist <- bibres$Authors
+
+bibres_autable <- tibble(Rank = seq_along(bibres_aulist),
+                         Author = rownames(bibres_aulist),
+                         Np = as.integer(bibres_aulist)) %>% 
+  mutate(Author = fct_reorder(Author, Rank))
+
+bibres_autablepercent <- bibres_autable %>% 
+  count(Np) %>% 
+  mutate(percent = n / sum(n) * 100,
+         percent = round(percent,1))
+
+
+```
+
+
+
+## General Information
+
+```{r}
+#| label: bibres_summary
+#| eval: false
+
+bibres_summary
+
+# bibres_summary$AnnualProduction
+
+```
+
+In total, 662 publications on the stroke caregiver burden published between `r min(bibres$Years, na.rm = T)` and `r max(bibres$Years, na.rm = T)` were identified through our search strategy using the WOS. There were `r bibres$Articles` original articles were identified and analysed. The original articles were published by `r format(nrow(bibres$Authors), big.mark = ",")` authors in `r nrow(bibres$Sources)` journals and used `r nrow(bibres$DE)` keywords (after de-duplication). The total number of citations were `r format(sum(bibres$TotalCitation), big.mark = ",")`. Annually, the number of articles produced ranging from 20-50 per year, with annual growth rate of 14.45%[^1]
+
+[^1]: manual
+
+
+After applying the inclusion criteria described above, a sample of`r bibres$Articles` was obtained. For the past decade, the number of publication annually ranging from 20 to 50. This shows a growing interest in the subject.
+
+The annual number publication was shown in @fig-annualscientprod. The number of publications were fluctuating, ranging from 20 to 50 articles published per year. 
+
+```{r}
+#| label: fig-database_flow
+#| fig-cap: "Flow diagram for the inclusion of publication on the stroke caregiver burden"
+#| fig-height: 7
+
+prismaplot <- plot_PRISMA(
+  c("START_PHASE: Studies identified through databse searching (n=1,004)",
+    "Publication Year: 2013-2022 (n = 662)",
+    "EXCLUDE_PHASE: before 2013 (n = 342)",
+    "Publication Type: Articles only (n=411)",
+    "EXCLUDE_PHASE: Other Type (n = 251)",
+    "Included in the analysis (n=411)"),
+  design = "classic", colWidth = 25, excludeDistance = 1
+  )
+```
+
+```{r}
+#| label: fig-annualscientprod
+#| fig-cap: "Number of Publications by Year"
+
+# bibres_plot$AnnualScientProd
+# error plot - refer setup chunk
+
+tibble(Article = rownames(bibds_wos),
+       Year = bibds_wos$PY) %>% 
+  group_by(Year) %>% 
+  summarise(n = n()) %>% 
+  ggplot(aes(x = Year, y = n)) +
+  geom_area(alpha = .3) +
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(breaks = seq(0,100,10)) +
+  scale_x_continuous(breaks = seq(1986,2022,4)) +
+  labs(x = "Year", y = "Number of Publication") +
+  theme_bw()
+```
+
+
+## Language
+
+In the field, the articles were published in total `r english::words(dplyr::pull(dplyr::count(bib_lang)))` languages, with majority of the articles published in `r stringr::str_to_title(bib_lang$LA[1])` language with whopping `r bib_lang$percent[1]`%. The articles were also published in `r stringr::str_to_title(bib_lang$LA[2])` with `r english::words(bib_lang$n[2])` articles, `r stringr::str_to_title(bib_lang$LA[3])` and `r stringr::str_to_title(bib_lang$LA[4])` with `r english::words(bib_lang$n[3])` articles, and `r english::words(bib_lang$n[5])` article for each `r stringr::str_to_title(bib_lang$LA[5])`, `r stringr::str_to_title(bib_lang$LA[6])` and `r stringr::str_to_title(bib_lang$LA[7])`. 
+
+
+## Country
+
+When analysing the corresponding author's country, the `r bibres$Articles` articles were published in `r nrow(bibres_countrylist)` countries. The top 10 productive countries, and top 10 most total citation per country were shown in @tbl-articles_country.
+
+Concerning the countries of origin of the publication, `r bibres_countrytable$Country[1]` appears with the highest number of publication (`r bibres_countrytable$percent[1]`%), followed by `r stringr::str_to_title(bibres_countrytable$Country[2])` (`r bibres_countrytable$percent[2]`%) and `r stringr::str_to_title(bibres_countrytable$Country[3])` (`r bibres_countrytable$percent[3]`%). 
+
+When looking at the number of citations, `r bibressum_countrytable$Country[1]` appears with the highest number of total citation (`r bibressum_countrytable$percent[1]`%), followed by `r stringr::str_to_title(bibressum_countrytable$Country[2])` (`r bibressum_countrytable$percent[2]`%) and `r stringr::str_to_title(bibressum_countrytable$Country[3])` (`r bibressum_countrytable$percent[3]`%)
+
+
+```{r}
+#| label: tbl-articles_country
+#| tbl-cap: "Top 10 Productive Country"
+
+bibres_countrytable %>% 
+  rename("Number of Publications" = "Np") %>% 
+  filter(`Number of Publications` >= 12) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+
+```{r}
+#| label: tbl-articles_country2
+#| tbl-cap: "Top 10 Most Citation by Country"
+
+bibressum_countrytable %>% 
+  relocate(Np, .after = `Total Citations`) %>% 
+  rename("Number of Publications" = "Np") %>% 
+  kable(digits = 1) %>% kable_classic(full_width = F)
+
+```
+
+```{r}
+#| label: fig-mostprodcountries
+#| fig-cap: "Number of Publication by top 10 countries"
+#| eval: false
+
+# bibres_plot$MostProdCountries
+# error plot - refer setup chunk
+
+bibres_countrytable %>%
+  filter(Rank <= 11) %>%
+  ggplot(aes(x = Np, y = Country)) +
+  geom_bar(stat = "identity") +
+#  scale_x_continuous(breaks = seq(0,15,2)) +
+  labs(x = "Number of Publications") +
+  theme_bw()
+  
+```
+
+The collaboration network between the corresponding author's countries was shown in @fig-countries_collaboration.
+
+```{r}
+#| label: fig-countries_collaboration
+#| fig-cap: "Countries Collaboration Map" 
+#| column: page-inset-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_concolab <- metaTagExtraction(bibds_wos, Field = "AU_CO", sep = ";")
+
+bib_concolab_NetMatrix <- biblioNetwork(bib_concolab, analysis = "collaboration",
+                                       network = "countries", sep = ";")
+
+bib_concolab_Plot <- networkPlot(bib_concolab_NetMatrix, 
+                                 n = dim(bib_concolab_NetMatrix)[1], 
+                                 Title = "Country collaboration", type = "auto", 
+                                 size=10, size.cex=T, edgesize = 2, labelsize=1.1,
+                                 edges.min = 2, remove.isolates = T, community.repulsion = 0,
+                                 cluster = "none")
+
+```
+
+
+## Institution
+
+The publications in this field were from `r nrow(bibres_instlist)` institutions. The top 10 productive institutions were shown in @tbl-top10institution. The collaboration network between the institution was shown in @fig-bib_EduColabPlot.
+
+```{r}
+#| label: tbl-top10institution
+#| tbl-cap: "Most Productive Institution"
+
+bibres_insttable %>% 
+  rename("Number of Publications" = "Np",
+         "Instituion Name" = "InstitutionAffiliation") %>% 
+  mutate(`Instituion Name` = stringr::str_to_title(`Instituion Name`)) %>% 
+  filter(`Number of Publications` >= 15) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+```{r}
+#| label: fig-bib_EduColabPlot
+#| fig-cap: "Institution Collaboration Map"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_educolab_NetMatrix <- biblioNetwork(bibds_wos, analysis = "collaboration",
+                                       network = "universities", sep = ";")
+
+bib_educolab_Plot <- networkPlot(bib_educolab_NetMatrix, n = 25, 
+                                 cluster = "optimal", type = "auto",
+                                 size.cex = F, size = 3, remove.multiple = F,
+                                 labelsize=1, alpha = .7, edgesize = 1,
+                                 edges.min = 5, remove.isolates = T, 
+                                 community.repulsion = 0,
+                                 Title = "Institutions collaboration")
+```
+
+
+## Journals
+
+A total of `r nrow(bibres_sourcelist)` journals have published articles in this field. Most of the journals only produced one article (`r bibres_sourcetablepercent$percent[1]`%). Based on Bradford's Law, there were `r bib_bradfordtable$nSO[1]` journal in Zone 1, as the listed in @tbl-zone1_bradford.
+
+Based on Bradford's Law, Zone 1, which represent a core of a few journals, listed  `r bib_bradfordtable$nSO[1]` most productive journal, with total of `r bib_bradfordtable$nArt[1]` articles published, correponding to `r bib_bradfordtable$percent[1]`% of total publications.
+
+The top three journals were (1) `r stringr::str_to_title(bib_bradford$table$SO[1])` (n = `r bib_bradford$table$Freq[1]`), with a 2021 journal impact factor (JIF) of 2.18^[manual]; (2) `r stringr::str_to_title(bib_bradford$table$SO[2])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 3.01^[manual]; and (3) `r stringr::str_to_title(bib_bradford$table$SO[3])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 2.44^[manual].
+
+The top 14 active journals were presented in @tbl-zone1_bradford, accounting for `r bib_bradfordtable$percent[1]`% of total `r bibres$Articles` articles. The top three journals were (1) `r stringr::str_to_title(bib_bradford$table$SO[1])` (n = `r bib_bradford$table$Freq[1]`), with a 2021 journal impact factor (JIF) of 2.18^[manual]; (2) `r stringr::str_to_title(bib_bradford$table$SO[2])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 3.01^[manual]; and (3) `r stringr::str_to_title(bib_bradford$table$SO[3])` (n = `r bib_bradford$table$Freq[3]`), with 2021 JIF of 2.44^[manual].
+
+In the Zone 1, the journal was in stroke related field, rehabilitation related field, nursing related field, and general medical journals.
+
+```{r}
+#| label: tbl-Zone_Bradford
+#| tbl-cap: "No of Journals and Articles by Zone of Bradford's Law"
+
+bib_bradfordtable %>% 
+  select(-percent) %>% 
+  rename("No of Source (Journal)" = "nSO",
+       "Total Article" = "nArt",
+       "Source Rank" = "RankRange")%>% 
+  kable() %>% 
+  kable_classic(full_width = F)
+```
+
+```{r}
+#| label: tbl-zone1_bradford
+#| tbl-cap: "Journals in Zone 1 of Bradford's Law"
+
+bib_bradford$table %>% 
+  filter(Zone == "Zone 1") %>% 
+  tibble() %>% 
+  mutate(SO = stringr::str_to_title(SO)) %>% 
+  rename("Journal Name" = "SO") %>% 
+  kable() %>% 
+  kable_classic(full_width = F)
+
+```
+
+```{r}
+#| eval: false
+
+## label: tbl-top15journal
+## tbl-cap: "Most Productive Journal"
+
+# bibres_sourcetable %>% 
+#   rename("Number of Publications" = "Np",
+#          "Source (Journal)" = "SourceJournal") %>% 
+#   mutate(`Source (Journal)` = stringr::str_to_title(`Source (Journal)`)) %>% 
+#   head(n = 15) %>% 
+#   kable() %>% kable_classic(full_width = F)
+
+```
+
+Journal co-citation analysis as shown in @fig-bib_CRSO_Plot
+
+```{r}
+#| label: fig-bib_CRSO_Plot
+#| fig-cap: "Journal Co-citation Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_CRSO <- metaTagExtraction(bibds_wos, Field = "CR_SO", sep = ";")
+bib_CRSO_NetMatrix <- biblioNetwork(bib_CRSO, analysis = "co-citation", 
+                                    network = "sources", sep = ";")
+bib_CRSO_Plot <- networkPlot(bib_CRSO_NetMatrix, n = 20, 
+                             Title = "Co-citation Network", type = "auto", 
+                             size.cex = T, size = 20, remove.multiple = F,
+                             labelsize = 1, edgesize = 5, edges.min = 5, alpha = 1)
+```
+
+
+## Authors
+
+Out of total `r format(sum(bibres_autable$Np), big.mark = ",")` authors, majority of them appear once (`r max(bibres_autablepercent$percent)`%). The top 10 most productive authors were listed in @tbl-top10authors
+
+As shown in @tbl-top10authors, `r stringr::str_to_title(bibres_autable$Author[1])` was the most prolific research, publishing `r bibres_autable$Np[1]` articles. His research mainly focused on .....
+
+As shown in @fig-bib_AuCoupling_Plot, there was active co-operation relationships among the top productive reseach.
+
+
+::: callout-note
+find what most Bakas T papers about (among the articles)
+:::
+
+```{r}
+#| label: tbl-top10authors
+#| tbl-cap: "Most Productive Authors"
+
+bibres_autable %>% 
+  rename("Number of Publications" = "Np") %>% 
+  mutate(Author = stringr::str_to_title(Author)) %>% 
+  head(n = 10) %>% 
+  kable() %>% kable_classic(full_width = F)
+
+```
+
+The articles have `r english::words(min(bibds_noaufreq$no_auth))` to `r max(bibds_noaufreq$no_auth)` authors, with majority of them had `r english::words(bibds_noaufreq$no_auth[4])` authors (`r format(bibds_noaufreq$percent[4], nsmall = 1)`%). The number of authors for each articles were summarised in @fig-bibds_noaufreq
+
+```{r}
+#| label: fig-bibds_noaufreq
+#| fig-cap: "Number of authors per articles"
+
+bibds_noaufreq %>% 
+  ggplot(aes(no_auth, freq, fill = type)) + 
+  geom_bar(stat = "identity") + 
+  labs(x = "Number of Authors", y = "Frequency (Number of Articles)") + 
+  scale_x_continuous(breaks = seq(0,30,4)) +
+  scale_y_continuous(breaks = seq(0,200,20)) +
+  theme_bw()
+```
+
+
+All articles were subjected to a author coupling analysis to produce the network map, as shown in @fig-bib_AuCoupling_Plot. The connection between two nodes indicates that the articles have a common references, and the weighting reflect the coupling strength of the two nodes
+
+The author coupling analysis show the co-citation between the authors, as shown in @fig-bib_AuCoupling_Plot. Most of the top productive authors had co-citations links. The author coupling analysis allow understanding of grouping of authorship content, in which the networking show two cluster, one lead by Bakas T and another lead by Koh GCH.
+
+The knowledge base consisted of a collection of co-cited documents. A network of co-citation analysis was constructed to map the knowledge base of a research field. First, we conducted a co-citation analysis all the articles. @fig-bib_kwco_Plot show the major clustering results of co-citations by time. 
+
+```{r}
+#| label: fig-bib_AuCoupling_Plot
+#| fig-cap: "Author Coupling Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_AuCoupling_NetMatrix <- biblioNetwork(bibds_wos, analysis = "coupling",
+                                          network = "authors", sep = ";")
+
+bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 15, 
+                                   cluster = "optimal", type = "auto", 
+                                   size.cex = T, size = 20, remove.multiple = F,
+                                   Title = "Bibliographic coupling of the authors",
+                                   alpha = .7)
+```
+
+
+
+## Articles and References
+
+The top 10 most cited articles as shown in @tbl-top10citedarticles. 
+
+Highly cited articles can be used to identify the key knowledge base of each research field. The top most cited articles were presented in @tbl-top10citedarticles. Among the top most cited articles, the highest cited articles was about highly needed areas for research in caregiver field, and the rest of the top most cited articles were mixture of (1) qualitative and (2) quantitative studies, both measuring or exploring the level and the determinant of quality of life, anxiety, depression and burden of caregivers, and (3) interventional studies to improve well-being and skill of caregivers.
+
+
+```{r}
+#| label: tbl-top10citedarticles
+#| tbl-cap: "Top 10 Most Cited Articles on Stroke Caregiver Burden"
+
+tibble(Title = bibds_wos$TI,
+       Author = bibds_wos$AU,
+       DOI = bibds_wos$DI,
+       Citations = bibds_wos$TC) %>% 
+  mutate(across(.cols = c(Title, Author),
+                .fns = str_to_title)) %>% 
+  arrange(desc(Citations)) %>% 
+  head(n=10) %>% 
+  kable() %>% kable_classic()
+```
+
+
+```{r}
+#| label: fig-bib_ArCo_Plot
+#| fig-cap: "Article Co-citation Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_ArCo_NetMatrix <- biblioNetwork(bibds_wos, analysis = "co-citation",
+                                    network = "references", sep = ";")
+
+bib_ArCo_Plot <- networkPlot(bib_ArCo_NetMatrix, n = 25, 
+                             Title = "Co-Citation Network", type = "fruchterman", 
+                             size.cex = T,  size = 20, remove.multiple = F, 
+                             labelsize = 1, edgesize = 10, edges.min = 5)
+```
+
+
+## Keyword
+
+::: callout-note
+summarise on keyword co-occurence matrix plot
+:::
+
+Top 10 of most relevance keywords were shown in @tbl-top10keyword.
+
+Using `bibliometrix` package, it was possible to analyse the most commonly used keywords in citations, most relevant being stroke, caregiver, survivor, burden, quality of life, health, depression and care.
+
+The keyword have 3 major cluster, with one cluster lead by survivors, another with burden and third cluster lead by care.
+
+```{r}
+#| label: tbl-top10keyword
+#| tbl-cap: "Top 10 Most Relevance Keyword"
+
+cbind(Rank = 1:10,
+      bibres_summary$MostRelKeywords) %>% 
+  kable() %>% kable_classic(full_width = F)
+```
+
+
+The keyword co-occurrence can be plotted as shown in @fig-bib_kwco_Plot
+
+```{r}
+#| label: fig-bib_kwco_Plot
+#| fig-cap: "Keyword Co-occurences"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_kwco_NetMatrix <- biblioNetwork(bibds_wos, analysis = "co-occurrences", 
+                                     network = "keywords", sep = ";")
+
+bib_kwco_Plot <- networkPlot(bib_kwco_NetMatrix, normalize = "association", 
+                             n = 20, Title = "Keyword Co-occurences", 
+                             cluster = "optimal", type = "fruchterman", 
+                             size.cex = T, size = 20,  remove.multiple = F, 
+                             edgesize = 7, labelsize = 3, label.cex = T, 
+                             label.n = 20, edges.min = 10)
+```
+
+
+Author keyword Trend
+
+
+```{r}
+bib_themeevolution_de <- fieldByYear(bibds_wos, field = "DE", 
+                                     timespan = c(2013,2022), min.freq = 20, 
+                                     n.items = 5)
+```
+
+
+Thematic Map
+
+```{r}
+#| label: fig-thematicmap
+#| fig-cap: "Thematic Map"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_thememap <- thematicMap(bibds_wos, field = "DE", n = 500, minfreq = 10, 
+                            stemming = F, size = .5, n.labels = 5, repel = T)
+
+plot(bib_thememap$map)
+```
+
+
+
+# Discussion
+
+Demographic ageing is a worldwide process and is associated with an increased prevalence of stroke disease. It is inevitable that family caregivers and caregiver-related problems will increase, because most people with stroke live at home. The *world stroke report* states that the number of people with stroke in need of care is rapidly increasing in developing countries, and our studies show that the studies had fair share of both developed countries and developing countries. National policies and support stroke may play an important role in this phenomenon. For example, US declare stroke a national health priotiry, and was also lunch in other countries. China, the second most productive, indicating that China also make important contribution to this field[^2].
+
+[^2]: find systematic review on stroke caregiver burden in China
+
+::: callout-note
+UK 2007 National Stroke Strategy
+:::
+
+Further analysis show that the most closely cooperating institution were located in the same country and that cooperation among countries was not very common. the variation in health care systems, culture, family structure and care arrangement across countries and regions can lead to different health problem and countermeasures for caregivers, which may be reasons for the lack of international cooperation in this type of research.
+
+::: callout-note
+variation among countries - health services - regarding stroke caregiver
+:::
+
+The Topics in Stroke Rehabilitation can be considered the most influential journal in this field, and it focuses on stroke rehabilitation. While most of the articles were published in stroke and stroke rehabilitation related journals, there were also articles published in top-tier general medical journal. For the top 10 most cited articles, 9 of them were study about the determinant or factors associated with caregiver burden, while the other one is study regarding questionnaire validity and reliability. This indicated, that interventional studies on stroke caregiver burden were lacking and not the most influential topic in this field. There were several interventional studies on stroke caregiver, but most of them were targeted on physical and psychosocial well-being of the stroke caregiver.
+
+::: callout-note
+WOS: (TI=(stroke) AND TI=(caregiver) AND TI=(trial))
+:::
+
+Other than "stroke", "caregiver" and "burden", the hotspot analysis show that other widely studied topics include "depression", "quality of life" and "determinant". Studies have shown that approximately *30-55%* of caregivers suffer form anxiety or depression symptoms, which may result in changes in their behaviour and reduced quality of care. Although the existing outcome measures predominately focus on the negative aspect of caregiving, the positive aspects of caring, such as self-efficacy, resilience, rewards meaning and spirituality, have been overlooked. The positive aspects of caring could aid in the development of relevant positive psychology interventions. based on the above caregiver health issues, several international agreements and conventions were drafted by the WHO and stroke disease international, and some countries also have policies protecting the rights of caregivers, and national strategies for carers. However, most countries still do not have long-term care services and support for family caregiver of stroke survivors, such as intervention for caregivers health issues.
+
+Several interventional available for caregivers include psychoeducational interventions, supportive interventions, psychotherapy, interventions to improve care r competency and multicomponent intervention.
+
+Additionally, our studies shows that studies are increasingly conducted via the telephone and internet. The use of internet based intervention seem to have great potential and represent a trend for future research.
+
+There were some limitations in this study. FIrst, the data were extracted only from the WOS databse. Second, there were differences between the real research conditions, and the bibliometric analysis results, since some recently published studies were not included. Furthermore, the bibliometric mapping and thematic analysis were performed on the abstract of the information sources only; it is thus possible that the results sould have been diffeent of the publications had been analyzed in their entirety.
+
+
+- - - - - 
+
+In this study, a bibliometric analysis of global trends on the concept of informal caregivers was conducted. The timeframe was determined for the past decade (2013-2022). The analysis shows a steady number of publications over the years.
+
+English is the most widely used and the USA is the country that has contributed the most to research on the subject. 
+
+Among the 12 scientific journals with the largest number of publications, three journals standout: "Topics In Stroke Rehabilitation", "BMJ Open" and "Disability and Rehabilitation" with impact factor of 2.182, 3.013 and 2.444 respectively.
+
+The largest number of co-citations belongs to Bakas T, Koh GCH, Vellonee, Pucciarelli G and Matchar DB, with the Bakas T was the author of the most published articles, followed by Koh GCH, Pucciarelli G and Vellone E.
+
+The most commonly used terms in the publication was survivors, burden, family caregivers and care.
+
+The loss of independence in performing daily life activities that stroke brings about leads the informal caregiver of the stroke survivors to change routines, lifestyles and family dynamics, with negative consequences on their physical and mental health. THus the caregiver is oftern forced to abdon life projects, especially when witnessing the degradation of the cognitive capacity of the stroke survivors. The uninterrupted character that the role of caregiver forces in most situation, with an average of 15 hour of daily care provision, constitutes in itself a factor of overload and weariness.
+
+Women are the most representative group of informal caregiver of stroke survovrs, presenting a greater burden due tot eh accumulation of different social roles; however, there are no difference regarding resilience in caregiver of older people being displayed by children or spouses and those who are already retired.
+
+The informal caregivers recognize that the informaiton they have in order to provide care is, in most situations, insufficeint for quality care, with inadequate care planning and lack of tools to deal with changes generated by the stroke. Thus the relationship  between the caregiver and the stroke survivors may generate a dynamic that drives conflicts and tension, directly affecting the person receiving care, the caregiver and family dynamics. On the other hand, the caregiver of the stroke survivors recognizes that being a caregiver of his relative strengthened the affective relationship.
+
+Healthcare, in turn, should include assessment of physical, cognitive, affective, social, financial, environmental and spiritual component, with the purpose of establishing a tangible therapeutic plan and integrated multidisciplinary follow-up, maintaining functional capacity, social reintegration and maintenance, and promoting decrease in institutionalization. 
+
+From this perspective, stroke team emerge as the health professionals better positioned to fill in information gaps with caregivers, as well as collaborate in adpative strategies, through the analysis of the real needs of informal caregvers and can be seen as social educator with consequent improvement in the quality of life of this binomial. The preponderant role of transmission of knowledge and skill to the stroke survivors and the informal caregiver stnads out, with a view to a safe transition and adaptation to the new health condition, giving continuity with the care nitiated at hospital level, since health-disease transitions with less positive outcomes are generators of dependence. The transition processess are then seen as complex, demanding and implying a paradigm shift in the provision of care to the vulnerable person, requiring reconfiguration of the nurses' role and multidisciplinary conjugation, encompassing all participants in the process, not forgetting the informal caregiver.
+
+Nevertheless, it is crucial to take account that a large majority of stroke caregivers also have their own comitment. The overload to which these caregivers are subject when performing their role as informal caregiver, often concomitant with their profession, that result in abandonment of care and inevitable instituionalization.
+
+Thus the paradigm of care focused on the stroke survivors encompases biological and psychosocial aspects with the aim of a global and integrative perspective with the purpose of fully satisfying human rights, focusing on self-determination, valuing individual characteristics, expectations and potentialities, and emphasizing the quality of the relationship in the provision of care.
+
+The goal of holistic, individualized and quality care provided to stroke survivors, caregivers, contemplates room for a care partner, from the initial moments of diagnosis, involving multidisciplinary care, until evaluation, taking into account this multidisciplinary in the intervention plan, the rehab hcw seens as an asset in providing family memebrs with better trianing and information, with a view toward the best and most adapted therapeutic process.
+
+## limitation
+
+- some publication may not have been analysed because they were not well catalogued or not published according to the inclusion criteria.
+
+
+
+
+# Conclusion
+
+An overview of research on health interventions for stroke caregivers was presented, providing information related to the number of annual publications, countries, journals, institutions, authors and research trends. There is an uregent global unmet need for effective scalable interventions for caregiver of peopele with stroke, given the fast moving pace of this research area. We believe that the key to improve health of family caregivers of stroke survivors lies in unique combination of global solutions and local knowledge. International cooperation should be strengthened to solve this problem. Future research needs the generalisation of treatment effects in different countries and caregivers of stroke survivors need to be addressed. Furthermore, it is evident that RCT evidence is only a part of the current body of evidence; more attention to non-RCT evicence may substantitally help future trial designs, and a realist review could be undertaken to enhance our understanding of the complexity of the implementation and impacts of intervention.
+
+In summary, we identify and analyzed the characteristic of the research on the health of and interventions for stroke survivors caregivers. The result may help guide researchers and funding agencies to the most important research areas in the field.
+
+
+- - - - - 
+
+This bibliometric review regarding the stroke caregiver allowed us to conclude that there has been growing interest in this topic by the scientific community, which has been more pronounced in the last 5 years and is ususally assoicated with caregiver well-being, more specifically burden and quality of life.
+
+in view of the expected increse in stroke survivors and dependence rates in the coming years, it is expeceted that there will be a growing need for a transition element capable of responding to the needs of an incresing stroke survivor and dependent population with a view to maintaining quality of life, with caregiver emerging as partner in care, and adherence to the therapeutic regime. 
+
+Due to the great relevance and growing interest in the topic, this represent a concept that still requires further research, particularly regarding the concept definiton and its role in today's society as well as its impact on health-illness transition or continuity of care. It is also concluded that the issues related to stroke diseases are closely assoicated tith the concept of informal caregiver, which may be incorporated into future research.
+
+
+
+
+
+
+
+
+# References

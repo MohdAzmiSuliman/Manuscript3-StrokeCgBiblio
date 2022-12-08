@@ -1,0 +1,47 @@
+Salam
+1) Takde masalah, tapi better include juga review and conference paper, instead of research article only
+2) Not a problem as long as explain in the methods
+3) Ada dalam attached notepad file - feel free to ignore irrelevant comments
+
+In term of dua2 file, aku rasa sama je kan, yang beza table and figure sahaja, pada aku kalau takde orang buat lagi mungkin tak perlu limit kepada year
+
+22-11-30 Manuscript 3 - Stroke Caregiver Bibliography.html
+
+Methods:
+- Paragraph/intro tentang bibliometrics move to introduction part
+- "The data were analysed both quantitatively and qualitatively." - Need to define the qualitative part
+- Method section need to be more specific - for example thematic map should be mentioned that authors keywords as opposed to database associated keywords were used
+
+Result:
+- Figure 3- can mention like top 5 most active countries in terms of collaboration in the plot in text
+- Figure 4 - different colors meaning different clusters, thus need to be discussed/explained in the text these research clusters reflected in the plot
+- Table 3 not cited in the text
+- Table 4 - similar frequency must be similar rank, example journal 2-4 with frequency of 4 publications should all be ranked no 2, next, journal 5 and 6 with frequency of 3 publications should all be ranked no 5 and so on
+- Figure 5 -  different colors meaning different clusters, thus need to be discussed/explained in the text these research clusters reflected in the plot
+- Figure 7 -  different colors meaning different clusters, thus need to be discussed/explained in the text these research clusters reflected in the plot
+- Trend topics plot - figure not numbered and cited in the text
+- Table 6, Trend topics plot, Figure 8, Figure 9 - write a few sentences/summary of the plot/table in the text, also relate how all these keywords reflect the current research themes
+
+Discussion:
+- "Furthermore, the bibliometric mapping and thematic analysis were performed on the abstract of the information sources only; it is thus possible that the results sould have been diffeent of the publications had been analyzed in their entirety." - this is the advantage of bibliometric, we explore the reasearch area using title and abstract. These two should be able to reflect the whole paper (our assumption). Maybe exclude this point from the limitations.
+- Add the advantage of bibliometric
+- Include adavantage of using WOS - high quality research, etc
+- Include in the limitation - possibility of missing articles due to the use of one database only
+- Keywords/hotspot analysis result should be discussed more
+- the four qudarants of thematic map should be discussed/explained - either here or in the result
+
+Things to be explored/discussed:
+1) Table 1 a) and b):
+- Sweden research quite impactful despite not publishing a lot of papers
+- Nigeria from African region in the top 10 - interesting
+2) Figure 3:
+- There are a few representative countries from different region, africa (congo, jamaica, etc), SEA (malaysia, thailand, etc) - this is good, meaning this area of reasearch was well research by various countries from various regions
+
+Overall comments:
+- Probably need to reduce the number of the analysis - for example for hotspot analysis, just include maybe 2 analysis only, and focus on explaining the result more
+- Different colors in the co-occurrence, bibliographic coupling, etc reflect thge different research cluster proposed by analysis. For example, in Figure 7, there were 3 clusters of research conducted 3 groups of author. So, this need to be explained more. Maybe turn off the color and exclude some of the analysis.
+- No need for the supplement. 
+- Each analaysis need to explained in the result and significant/important result need to be discussed. So, pick just a few analysis.
+
+Suggestions:
+- Pick a journal to submit and find a relatively similar article. See how the article presents and discusss their results.
