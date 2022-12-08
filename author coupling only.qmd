@@ -1,0 +1,73 @@
+---
+title: "Manuscript 3 - Stroke Caregiver Burden Bibliometric"
+subtitle: "Research on Stroke Caregiver, A bibliometric Analysis"
+author: "Mohd Azmi B Suliman"
+date: last-modified
+date-format: "dddd, DD/MM/YYYY"
+format: 
+  html:
+    code-link: true
+    code-fold: true
+    code-copy: hover
+    code-overflow: wrap
+    code-tools: true
+    df-print: paged
+    default-image-extension: svg
+    embed-resources: true
+    theme: sandstone
+    fontsize: 1em
+    page-layout: full
+    reference-location: margin
+    title-block-banner: true
+    title-block-style: default
+    license: "CC BY"
+toc: true
+number-sections: true
+dpi: 320
+execute: 
+  warning: false
+  cache: true
+monofont: 'Fira Code'
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| results: hide
+#| output: false
+
+pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
+               gtsummary, kableExtra, metagear)
+
+bibds1_wos <- convert2df(file = "22-12-07 WOS_TIstcgp1.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds2_wos <- convert2df(file = "22-12-07 WOS_TIstcgp2.bib", dbsource = "wos",
+                        format = "bibtex")
+bibds_wos <- bind_rows(bibds1_wos, bibds2_wos)
+bibres <- biblioAnalysis(bibds_wos)
+```
+
+
+
+```{r}
+#| label: fig-bib_AuCoupling_Plot
+#| fig-cap: "Author Coupling Analysis"
+#| column: page-left
+#| fig-width: 10
+#| fig-height: 7
+
+bib_AuCoupling_NetMatrix <- biblioNetwork(bibds_wos, analysis = "coupling",
+                                          network = "authors", sep = ";")
+
+bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 10, 
+                                   cluster = "optimal", type = "auto", 
+                                   size.cex = T, size = 20, remove.multiple = F,
+                                   Title = "Bibliographic coupling of the authors",
+                                   alpha = .7)
+
+bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 25, 
+                                   cluster = "optimal", type = "auto", 
+                                   size.cex = T, size = 20, remove.multiple = F,
+                                   Title = "Bibliographic coupling of the authors",
+                                   alpha = .7)
+```
