@@ -39,7 +39,7 @@ bibliography: references.bib
 #| output: false
 
 pacman::p_load(tidyverse, bibliometrix, janitor, stringi, gtsummary, igraph, 
-               gtsummary, kableExtra, metagear)
+               gtsummary, kableExtra)
 
 bibds1_wos <- convert2df(file = "22-12-07 WOS_TIstcgp1.bib", dbsource = "wos",
                         format = "bibtex")
@@ -48,6 +48,7 @@ bibds2_wos <- convert2df(file = "22-12-07 WOS_TIstcgp2.bib", dbsource = "wos",
 bibds_wos <- bind_rows(bibds1_wos, bibds2_wos)
 bibres <- biblioAnalysis(bibds_wos)
 ```
+
 
 
 ## General Information
@@ -542,7 +543,7 @@ bib_AuCoupling_Plot <- networkPlot(bib_AuCoupling_NetMatrix, n = 25,
                                    alpha = .7)
 ```
 
-## Articles and References
+## Articles 
 
 The top 10 most cited articles as shown in @tbl-top10citedarticles
 
@@ -552,20 +553,26 @@ Highly cited articles can be used to identify the key knowledge base of each res
 #| label: tbl-top10citedarticles
 #| tbl-cap: "Top 10 Most Cited Articles on Stroke Caregiver Burden"
 #| tbl-subcap: 
-#|   - "Top 10 Most Cited Article (1989-2022)"
-#|   - "Top 10 Most Cited Article (2013-2022)"
-#| layout-ncol: 2
-#| column: page
+#|   - "Top 10 Most Cited Article"
+#|   - "Top 10 Most Cited per Year Article"
+
+# bibres$MostCitedPapers %>% 
+#   select(-NTC) %>% 
+#   arrange(desc(TC)) %>% 
+#   head(n = 10) %>% 
+#   kable() %>% kable_classic()
 
 tibble(Title = bibds_wos$TI,
        Author = bibds_wos$AU,
        Year = bibds_wos$PY,
        DOI = bibds_wos$DI,
-       Citations = bibds_wos$TC) %>% 
+       Citations = bibds_wos$TC,
+       CitaPerYear = Citations/(2023-Year)) %>%
   mutate(across(.cols = c(Title, Author),
-                .fns = str_to_title)) %>% 
-  arrange(desc(Citations)) %>% 
-  head(n=10) %>% 
+                .fns = str_to_title),
+         CitaPerYear = round(CitaPerYear, 2)) %>%
+  arrange(desc(Citations)) %>%
+  head(n=10) %>%
   kable() %>% kable_classic()
 
 # tibble(Title = bibds_wos$TI,
@@ -580,29 +587,25 @@ tibble(Title = bibds_wos$TI,
 #   head(n=10) %>%
 #   clipr::write_clip(object_type = "table")
 
+# bibres$MostCitedPapers %>% 
+#   select(-NTC) %>% 
+#   arrange(desc(TCperYear)) %>% 
+#   head(n = 10) %>% 
+#   kable() %>% kable_classic()
+
 tibble(Title = bibds_wos$TI,
        Author = bibds_wos$AU,
        Year = bibds_wos$PY,
        DOI = bibds_wos$DI,
-       Citations = bibds_wos$TC) %>% 
-  filter(Year >= 2013 ) %>% 
+       Citations = bibds_wos$TC,
+       CitaPerYear = Citations/(2023-Year)) %>%
   mutate(across(.cols = c(Title, Author),
-                .fns = str_to_title)) %>% 
-  arrange(desc(Citations)) %>% 
+                .fns = str_to_title),
+         CitaPerYear = round(CitaPerYear, 2)) %>%
+  arrange(desc(CitaPerYear)) %>%
   head(n=10) %>%
   kable() %>% kable_classic()
 
-# tibble(Title = bibds_wos$TI,
-#        Author = bibds_wos$AU,
-#        Year = bibds_wos$PY,
-#        DOI = bibds_wos$DI,
-#        Citations = bibds_wos$TC) %>% 
-#   filter(Year >= 2013 ) %>% 
-#   mutate(across(.cols = c(Title, Author),
-#                 .fns = str_to_title)) %>% 
-#   arrange(desc(Citations)) %>% 
-#   head(n=10) %>%
-#   clipr::write_clip(object_type = "table")
 
 ```
 
