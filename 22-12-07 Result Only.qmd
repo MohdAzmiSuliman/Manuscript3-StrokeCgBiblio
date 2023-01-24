@@ -648,7 +648,7 @@ bib_kwco_NetMatrix <- biblioNetwork(bibds_wos, analysis = "co-occurrences",
                                      network = "keywords", sep = ";")
 
 bib_kwco_Plot <- networkPlot(bib_kwco_NetMatrix, normalize = "association", 
-                             n = 20, Title = "Keyword Co-occurences", 
+                             n = 25, Title = "Keyword Co-occurences", 
                              cluster = "optimal", type = "fruchterman", 
                              size.cex = T, size = 20,  remove.multiple = F, 
                              edgesize = 7, labelsize = 3, label.cex = T, 
